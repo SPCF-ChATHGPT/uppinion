@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "uppinion_backend": {
+      "main": "src/uppinion_backend/main.mo",
+      "type": "motoko"
+    },
+    "uppinion_frontend": {
+      "dependencies": [
+        "uppinion_backend"
+      ],
+      "source": [
+        "src/uppinion_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "uppinion_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
