@@ -5,11 +5,23 @@ import EventDetailsPage from "../pages/events/EventDetailsPage";
 import EventsPage from "../pages/events/EventsPage";
 import CommunitiesPage from "../pages/community/CommunitiesPage";
 import SavedEventsPage from "../pages/events/SavedEventsPage";
+import LoginPage from "../pages/auth/LoginPage";
+import RegisterPage from "../pages/auth/RegisterPage";
 
 // const home = {
 //   path: "/",
 //   element: <HomePage />,
 // };
+
+const login = {
+  path: "/login",
+  element: <LoginPage />,
+};
+
+const register = {
+  path: "/register",
+  element: <RegisterPage />,
+};
 
 const events = {
   path: "/events",
@@ -41,6 +53,6 @@ const root = {
   children: [home, communities, savedEvents],
 };
 
-const routes = [root];
+const routes = [root, login, register];
 
 export default createBrowserRouter(routes);
