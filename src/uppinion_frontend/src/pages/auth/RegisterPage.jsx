@@ -1,8 +1,83 @@
 import { Typography, TextField, Divider, Box, Button } from "@mui/material";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import uppinionLogo from "../../assets/uppinion.png";
 import colors from "../../utils/colors";
+import { auth, db } from "../../config/firebase";
+import { validationRules } from "../../utils/validationRules";
+import defaultUserImage from "../../assets/default-images/default_user_image.jpg";
 
 export default function RegisterPage({}) {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const signUp = (data) => {
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then(async (userCredential) => {
+        // Signed up
+        // Saves user info in the "users" collection
+
+        //Creates an image url for the default user image profile
+        let defaultImage = {
+          name: Math.floor(Math.random() * 10000000).toString(),
+          blob: null,
+        };
+        fetch(defaultUserImage)
+          .then((response) => response.blob())
+          .then((myBlob) => {
+            defaultImage.blob = myBlob;
+          });
+
+        const user = await addDoc(collection(db, "users"), {
+          name: data.username,
+          age: data.age,
+          gender: data.gender,
+          address: data.address,
+          email: data.email,
+          profile_image: defaultImage.name,
+        });
+
+        //Upload profile image to firebase storage
+        const storage = getStorage();
+        const storageRef = ref(storage, defaultImage.name);
+
+        uploadBytes(storageRef, defaultImage.blob).then((snapshot) => {
+          console.log(snapshot);
+        });
+
+        await updateProfile(auth.currentUser, {
+          displayName: data.name,
+        });
+
+        setSuccess(true);
+        setLoading(false);
+        navigate("/login");
+      })
+      .catch((error) => {
+        setSuccess(false);
+        setError(error.message);
+        setLoading(false);
+      });
+  };
+
   return (
     <Box
       component="div"
@@ -15,7 +90,7 @@ export default function RegisterPage({}) {
         alignItems: "center",
         width: { xs: "100%", sm: "50%", md: "30%" },
         mx: "auto",
-        mb: "2rem"
+        mb: "2rem",
       }}
     >
       <img
@@ -44,40 +119,112 @@ export default function RegisterPage({}) {
         REGISTER
       </Typography>
 
-      <div style={{ width: "100%" }}>
-        <Typography variant="body1">Username</Typography>
-        <TextField size="small" fullWidth></TextField>
-      </div>
-      <div style={{ width: "100%", paddingTop: "1rem" }}>
-        <Typography variant="body1">Gender</Typography>
-        <TextField size="small" fullWidth></TextField>
-      </div>
-      <div style={{ width: "100%", paddingTop: "1rem" }}>
-        <Typography variant="body1">Age</Typography>
-        <TextField size="small" fullWidth></TextField>
-      </div>
-      <div style={{ width: "100%", paddingTop: "1rem" }}>
-        <Typography variant="body1">Address</Typography>
-        <TextField size="small" fullWidth></TextField>
-      </div>
-      <div style={{ width: "100%", paddingTop: "1rem" }}>
-        <Typography variant="body1">Email</Typography>
-        <TextField size="small" fullWidth></TextField>
-      </div>
-      <div style={{ width: "100%", paddingTop: "1rem" }}>
-        <Typography variant="body1">Password</Typography>
-        <TextField size="small" fullWidth type="password"></TextField>
-      </div>
-      <Button
-        variant="contained"
-        fullWidth
-        color="violet"
-        sx={{ my: "0.75rem" }}
-      >
-        REGISTER
-      </Button>
+      {error && (
+        <Typography
+          color={"black"}
+          variant="body2"
+          noWrap
+          sx={{ color: colors.error, mb: "1rem" }}
+        >
+          {error}
+        </Typography>
+      )}
+
+      <form onSubmit={handleSubmit(signUp)} style={{ width: "100%" }}>
+        <div style={{ width: "100%" }}>
+          <Typography variant="body1">Username</Typography>
+          <TextField
+            size="small"
+            fullWidth
+            name="username"
+            {...register("username", validationRules.username)}
+          ></TextField>
+          <Typography variant="caption" sx={{ color: colors.error }}>
+            {errors.username?.message}
+          </Typography>
+        </div>
+
+        <div style={{ width: "100%", paddingTop: "1rem" }}>
+          <Typography variant="body1">Gender</Typography>
+          <TextField
+            size="small"
+            fullWidth
+            name="gender"
+            {...register("gender", validationRules.gender)}
+          ></TextField>
+          <Typography variant="caption" sx={{ color: colors.error }}>
+            {errors.gender?.message}
+          </Typography>
+        </div>
+
+        <div style={{ width: "100%", paddingTop: "1rem" }}>
+          <Typography variant="body1">Age</Typography>
+          <TextField
+            size="small"
+            fullWidth
+            type="number"
+            name="age"
+            {...register("age", validationRules.age)}
+          ></TextField>
+          <Typography variant="caption" sx={{ color: colors.error }}>
+            {errors.age?.message}
+          </Typography>
+        </div>
+
+        <div style={{ width: "100%", paddingTop: "1rem" }}>
+          <Typography variant="body1">Address</Typography>
+          <TextField
+            size="small"
+            fullWidth
+            name="address"
+            {...register("address", validationRules.address)}
+          ></TextField>
+          <Typography variant="caption" sx={{ color: colors.error }}>
+            {errors.address?.message}
+          </Typography>
+        </div>
+
+        <div style={{ width: "100%", paddingTop: "1rem" }}>
+          <Typography variant="body1">Email</Typography>
+          <TextField
+            size="small"
+            fullWidth
+            type="email"
+            name="email"
+            {...register("email", validationRules.email)}
+          ></TextField>
+          <Typography variant="caption" sx={{ color: colors.error }}>
+            {errors.email?.message}
+          </Typography>
+        </div>
+
+        <div style={{ width: "100%", paddingTop: "1rem" }}>
+          <Typography variant="body1">Password</Typography>
+          <TextField
+            size="small"
+            fullWidth
+            type="password"
+            name="username"
+            {...register("password", validationRules.password)}
+          ></TextField>
+          <Typography variant="caption" sx={{ color: colors.error }}>
+            {errors.password?.message}
+          </Typography>
+        </div>
+
+        <Button
+          variant="contained"
+          fullWidth
+          type="submit"
+          color="violet"
+          sx={{ my: "0.75rem" }}
+          disabled={loading}
+        >
+          {loading ? "LOADING" : "REGISTER"}
+        </Button>
+      </form>
       <Typography variant="subtitle2">
-       Already have an account?{" "}
+        Already have an account?{" "}
         <a
           href="/login"
           style={{

@@ -13,12 +13,12 @@ export default function UserProvider({ children }) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (userId) {
+      if (currentUser && userId) {
         const docRef = doc(db, "users", userId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          setUser(docSnap.data());
+          setUser({...docSnap.data(), userId: docSnap.id});
         } else {
           // docSnap.data() will be undefined in this case
           setUser(null);
@@ -27,7 +27,7 @@ export default function UserProvider({ children }) {
     };
 
     fetchUser();
-  }, [currentUser]);
+  }, [currentUser, userId]);
 
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }

@@ -1,14 +1,19 @@
 import { Typography, TextField, Divider, Box, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { getDocs, query, collection, where } from "firebase/firestore";
 
 import uppinionLogo from "../../assets/uppinion.png";
 import colors from "../../utils/colors";
 import { validationRules } from "../../utils/validationRules";
-import { auth } from "../../config/firebase";
+import { db, auth } from "../../config/firebase";
+import { UserContext } from "../../providers/UserProvider";
 
 export default function LoginPage({}) {
+  const user = useContext(UserContext)
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
@@ -20,16 +25,29 @@ export default function LoginPage({}) {
     reset,
   } = useForm();
 
+  //Sign in user
   const signIn = (data) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
 
     signInWithEmailAndPassword(auth, data.email, data.password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed in
+        const q = query(
+          collection(db, "users"),
+          where("email", "==", auth.currentUser.email)
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+          localStorage.setItem("userId", doc.id);
+        });
+
         setSuccess(true);
         setLoading(false);
+        navigate("/communities")
       })
       .catch((error) => {
         setSuccess(false);

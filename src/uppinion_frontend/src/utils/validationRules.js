@@ -6,20 +6,23 @@ export const validationRules = {
       message: "Title must be at least 5 characters long",
     },
   },
-  projectCode: {
-    required: "Project code is required",
+
+  gender: {
+    required: "Gender is required",
+  },
+
+  address: {
+    required: "Address is required",
     minLength: {
-      value: 2,
-      message: "Project code must be at least 2 characters long",
+      value: 10,
+      message: "Address must be at least 15 characters long",
     },
   },
-  description: {
-    required: "Description is required",
-    minLength: {
-      value: 15,
-      message: "Description must be at least 15 characters long",
-    },
+
+  age: {
+    required: "Age is required"
   },
+
   name: {
     required: "Name is required",
     minLength: {
@@ -27,6 +30,7 @@ export const validationRules = {
       message: "Name must be at least 2 characters long",
     },
   },
+
   username: {
     required: "Username is required",
     minLength: {
@@ -34,6 +38,7 @@ export const validationRules = {
       message: "Username must be at least 2 characters long",
     },
   },
+
   email: {
     required: "Email is required",
     pattern: {
@@ -41,6 +46,7 @@ export const validationRules = {
       message: "Email is invalid",
     },
   },
+
   password: {
     required: "Password is required",
     minLength: {
