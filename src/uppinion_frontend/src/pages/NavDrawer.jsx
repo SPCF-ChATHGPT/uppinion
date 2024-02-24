@@ -27,7 +27,7 @@ import { faPlus, faBars, faFilter } from "@fortawesome/free-solid-svg-icons";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import topCathLogo from "../assets/topcath-logo.png";
+import uppinionLogo from "../assets/uppinion.png";
 
 const drawerButtons = [
   {
@@ -216,7 +216,7 @@ export default function NavDrawer({ children }) {
           </IconButton>
           <img
             className="mr-2 ml-1"
-            src={topCathLogo}
+            src={uppinionLogo}
             alt="logo"
             style={{ width: "40px", height: "40px" }}
           />
