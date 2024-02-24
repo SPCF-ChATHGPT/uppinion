@@ -1,8 +1,16 @@
-import { Typography, TextField, Divider, Box, Button } from "@mui/material";
+import {
+  Typography,
+  TextField,
+  Divider,
+  Box,
+  Button,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,13 +25,25 @@ export default function RegisterPage({}) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const genders = ["Male", "Female"];
+  const [gender, setGender] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm();
+    control,
+  } = useForm({
+    defaultValues: {
+      username: "",
+      gender: "",
+      age: "",
+      address: "",
+      email: "",
+      password: "",
+    },
+  });
 
   const signUp = (data) => {
     setLoading(true);
@@ -33,8 +53,6 @@ export default function RegisterPage({}) {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then(async (userCredential) => {
         // Signed up
-        // Saves user info in the "users" collection
-
         //Creates an image url for the default user image profile
         let defaultImage = {
           name: Math.floor(Math.random() * 10000000).toString(),
@@ -46,7 +64,12 @@ export default function RegisterPage({}) {
             defaultImage.blob = myBlob;
           });
 
-        const user = await addDoc(collection(db, "users"), {
+        //Upload profile image to firebase storage
+        const storage = getStorage();
+        const storageRef = ref(storage, defaultImage.name);
+
+        // Saves user info in the "users" collection
+        await addDoc(collection(db, "users"), {
           name: data.username,
           age: data.age,
           gender: data.gender,
@@ -54,10 +77,6 @@ export default function RegisterPage({}) {
           email: data.email,
           profile_image: defaultImage.name,
         });
-
-        //Upload profile image to firebase storage
-        const storage = getStorage();
-        const storageRef = ref(storage, defaultImage.name);
 
         uploadBytes(storageRef, defaultImage.blob).then((snapshot) => {
           console.log(snapshot);
@@ -76,6 +95,12 @@ export default function RegisterPage({}) {
         setError(error.message);
         setLoading(false);
       });
+  };
+
+  const handleChange = (e) => {
+    //Only for the "Select" field (gender)
+    console.log(e.target.value);
+    setGender(e.target.value);
   };
 
   return (
@@ -146,12 +171,28 @@ export default function RegisterPage({}) {
 
         <div style={{ width: "100%", paddingTop: "1rem" }}>
           <Typography variant="body1">Gender</Typography>
-          <TextField
-            size="small"
-            fullWidth
+          <Controller
+            control={control}
             name="gender"
-            {...register("gender", validationRules.gender)}
-          ></TextField>
+            rules={validationRules.gender}
+            render={({ field }) => (
+              <Select
+                id="gender-select"
+                size="small"
+                fullWidth
+                value={field.value}
+                onChange={field.onChange}
+                error={!!errors.gender}
+              >
+                {genders.map((gender, index) => (
+                  <MenuItem key={gender} value={gender.toLowerCase()}>
+                    {gender}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+          />
+
           <Typography variant="caption" sx={{ color: colors.error }}>
             {errors.gender?.message}
           </Typography>
@@ -204,7 +245,7 @@ export default function RegisterPage({}) {
             size="small"
             fullWidth
             type="password"
-            name="username"
+            name="password"
             {...register("password", validationRules.password)}
           ></TextField>
           <Typography variant="caption" sx={{ color: colors.error }}>
