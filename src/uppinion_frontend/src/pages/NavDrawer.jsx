@@ -1,33 +1,26 @@
-import * as React from "react";
 
 import {
   Box,
   Typography,
   Drawer,
-  List,
-  Divider,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Card,
-  CardHeader,
-  CardActions,
-  Avatar,
   AppBar,
   Toolbar,
   CssBaseline,
   TextField,
   IconButton,
 } from "@mui/material";
-
-import { NavLink } from "react-router-dom";
-import colors from "../utils/colors";
+import { useState, useContext, useEffect } from "react";
+import { UserContext } from "../providers/UserProvider";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faBars, faFilter } from "@fortawesome/free-solid-svg-icons";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+
+import colors from "../utils/colors";
 import uppinionLogo from "../assets/uppinion.png";
+import DrawerItems from "../components/navigationDrawer/DrawerItems";
 
 const drawerButtons = [
   {
@@ -69,123 +62,11 @@ const joinedCommunities = [
   },
 ];
 
-function ProfileCard() {
-  return (
-    <Card
-      elevation={0}
-      sx={{
-        backgroundColor: colors.navBackground,
-        mb: "0.5rem",
-      }}
-    >
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: colors.primary }} aria-label="profile">
-            PC
-          </Avatar>
-        }
-        title={
-          <p className="text-sm font-bold line-clamp-1">
-            Prince Charles Clemente
-          </p>
-        }
-        disableTypography
-        sx={{
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      />
-    </Card>
-  );
-}
-
-function DrawerButtons() {
-  return (
-    <>
-      <List>
-        {drawerButtons.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton sx={{ gap: "2rem", p: 0 }}>
-              <NavLink
-                to={item.path}
-                style={({ isActive, isPending, isTransitioning }) => {
-                  return {
-                    fontWeight: isActive ? "bold" : "",
-                    color: isActive ? colors.primary : "black",
-                    backgroundColor: isActive ? colors.navBackground : "",
-                  };
-                }}
-                className="w-full px-4 py-3 rounded-sm flex gap-8 items-center"
-              >
-                {item.icon}
-                <p className="text-sm">{item.name}</p>
-              </NavLink>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </>
-  );
-}
-
-function MyCommunityList() {
-  return (
-    <>
-      <p className="text-sm px-[1rem]">MY COMMUNITIES</p>
-      <List>
-        {myCommunities.map((community, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton sx={{ gap: "1rem" }}>
-              <Avatar sx={{ bgcolor: "white" }} aria-label="profile">
-                <img src={community.image} alt="avatar" />
-              </Avatar>
-              <p className="text-sm line-clamp-2">{community.name}</p>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </>
-  );
-}
-
-function JoinedCommunityList() {
-  return (
-    <>
-      <p className="text-sm px-[1rem]">JOINED COMMUNITIES</p>
-      <List>
-        {joinedCommunities.map((community, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton sx={{ gap: "1rem" }}>
-              <Avatar sx={{ bgcolor: "white" }} aria-label="profile">
-                <img src={community.image} alt="avatar" />
-              </Avatar>
-              <p className="text-sm line-clamp-2">{community.name}</p>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </>
-  );
-}
-
-function DrawerItems() {
-  return (
-    <Box sx={{ padding: "0.5rem", overflow: "auto" }} role="presentation">
-      <ProfileCard />
-      <Divider />
-      <DrawerButtons />
-      <Divider sx={{ mb: "1rem" }} />
-      <MyCommunityList />
-      <Divider sx={{ mb: "1rem", mt: "0.25rem" }} />
-      <JoinedCommunityList />
-    </Box>
-  );
-}
-
 const drawerWidth = 300;
 
 export default function NavDrawer({ children }) {
-  const [drawer, setDrawer] = React.useState(false);
+  const currentUser = useContext(UserContext);
+  const [drawer, setDrawer] = useState(false);
 
   const handleSetDrawer = () => {
     setDrawer(!drawer);
@@ -252,7 +133,12 @@ export default function NavDrawer({ children }) {
         }}
       >
         <Toolbar />
-        <DrawerItems />
+        <DrawerItems
+          userDetails={currentUser}
+          drawerButtons={drawerButtons}
+          myCommunities={myCommunities}
+          joinedCommunities={joinedCommunities}
+        />
       </Drawer>
 
       <Drawer
@@ -269,7 +155,12 @@ export default function NavDrawer({ children }) {
         }}
       >
         <Toolbar />
-        <DrawerItems />
+        <DrawerItems
+          userDetails={currentUser}
+          drawerButtons={drawerButtons}
+          myCommunities={myCommunities}
+          joinedCommunities={joinedCommunities}
+        />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Toolbar />

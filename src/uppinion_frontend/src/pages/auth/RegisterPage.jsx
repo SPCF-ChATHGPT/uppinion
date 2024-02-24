@@ -76,6 +76,7 @@ export default function RegisterPage({}) {
           address: data.address,
           email: data.email,
           profile_image: defaultImage.name,
+          authId: auth.currentUser.uid
         });
 
         uploadBytes(storageRef, defaultImage.blob).then((snapshot) => {
@@ -95,12 +96,6 @@ export default function RegisterPage({}) {
         setError(error.message);
         setLoading(false);
       });
-  };
-
-  const handleChange = (e) => {
-    //Only for the "Select" field (gender)
-    console.log(e.target.value);
-    setGender(e.target.value);
   };
 
   return (

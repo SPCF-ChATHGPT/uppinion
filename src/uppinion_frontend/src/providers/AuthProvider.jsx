@@ -13,7 +13,7 @@ export default function AuthProvider({ children }) {
       if (user) {
         setCurrentUser(user);
       } else {
-        setCurrentUser("user is signed out");
+        console.log("user is signed out");
       }
     });
   }, []);
