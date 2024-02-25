@@ -11,11 +11,9 @@ import {
 } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../providers/UserProvider";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
-import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 import colors from "../utils/colors";
@@ -27,11 +25,6 @@ const drawerButtons = [
     name: "Join a community",
     icon: <GroupOutlinedIcon sx={{ color: colors.primary }} />,
     path: "/communities",
-  },
-  {
-    name: "Create a community",
-    icon: <EmojiEmotionsOutlinedIcon sx={{ color: colors.primary }} />,
-    path: "/",
   },
   {
     name: "Saved events",

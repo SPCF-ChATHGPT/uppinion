@@ -39,7 +39,7 @@ const communities = {
 };
 
 const eventDetails = {
-  path: "/",
+  path: "/events-details/:event",
   element: <EventDetailsPage />,
 };
 
