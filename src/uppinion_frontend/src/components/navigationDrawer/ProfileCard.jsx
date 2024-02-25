@@ -20,11 +20,15 @@ export default function ProfileCard({}) {
         avatar={
           <>
             {currentUser ? (
-              <Avatar
-                aria-label="profile"
-                src={encodeURI(currentUser?.profile_image)}
-                alt="avatar"
-              />
+              currentUser?.profile_image ? (
+                <Avatar
+                  aria-label="profile"
+                  src={encodeURI(currentUser?.profile_image)}
+                  alt="avatar"
+                />
+              ) : (
+                <Avatar />
+              )
             ) : (
               <Skeleton variant="circular" width={40} height={40} />
             )}

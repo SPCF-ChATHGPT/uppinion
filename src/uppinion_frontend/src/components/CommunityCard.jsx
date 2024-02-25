@@ -10,7 +10,7 @@ import {
   Divider,
 } from "@mui/material";
 
-export default function CommunityCard({ name, description, members, image }) {
+export default function CommunityCard({ name, description, image }) {
   return (
     <Card elevation={0}>
       <CardContent
