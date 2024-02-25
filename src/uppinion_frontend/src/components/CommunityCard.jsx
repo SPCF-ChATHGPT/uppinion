@@ -26,7 +26,7 @@ export default function CommunityCard({ name, description, members, image }) {
           <Typography variant="body1" sx={{ fontWeight: "bold" }}>
             {name}
           </Typography>
-          <Typography variant="body2">{members} members</Typography>
+          {/* <Typography variant="body2">{members} members</Typography> */}
         </Box>
       </CardContent>
       <CardContent sx={{ py: "0", px: { xs: "0rem", lg: "1rem" }, mb: "1rem" }}>

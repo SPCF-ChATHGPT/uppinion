@@ -5,28 +5,8 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../providers/UserProvider";
 import colors from "../../utils/colors";
 
-export default function ProfileCard({ }) {
+export default function ProfileCard({}) {
   const currentUser = useContext(UserContext);
-  const [profileImage, setProfileImage] = useState(null);
-
-  useEffect(() => {
-    //Gets the profile image of the user
-    if (currentUser && currentUser.profile_image) {
-      const storage = getStorage();
-      getDownloadURL(
-        ref(
-          storage,
-          `gs://uppinion-dev.appspot.com/${currentUser?.profile_image}`
-        )
-      )
-        .then((url) => {
-          setProfileImage(url);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [currentUser]);
 
   return (
     <Card
@@ -39,10 +19,12 @@ export default function ProfileCard({ }) {
       <CardHeader
         avatar={
           <>
-            {profileImage ? (
-              <Avatar aria-label="profile">
-                <img src={profileImage} alt="avatar" />
-              </Avatar>
+            {currentUser ? (
+              <Avatar
+                aria-label="profile"
+                src={encodeURI(currentUser?.profile_image)}
+                alt="avatar"
+              />
             ) : (
               <Skeleton variant="circular" width={40} height={40} />
             )}

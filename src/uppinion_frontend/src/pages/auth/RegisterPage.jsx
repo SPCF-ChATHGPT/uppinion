@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,6 @@ export default function RegisterPage({}) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
   const genders = ["Male", "Female"];
-  const [gender, setGender] = useState("");
 
   const {
     register,
@@ -58,7 +57,8 @@ export default function RegisterPage({}) {
           name: Math.floor(Math.random() * 10000000).toString(),
           blob: null,
         };
-        fetch(defaultUserImage)
+
+        await fetch(defaultUserImage)
           .then((response) => response.blob())
           .then((myBlob) => {
             defaultImage.blob = myBlob;
@@ -67,6 +67,23 @@ export default function RegisterPage({}) {
         //Upload profile image to firebase storage
         const storage = getStorage();
         const storageRef = ref(storage, defaultImage.name);
+        var profileImageURL = ""
+
+        await uploadBytes(storageRef, defaultImage.blob).then((snapshot) => {
+          console.log(snapshot);
+        });
+
+        //Generates image url
+        await getDownloadURL(
+          ref(storage, `gs://uppinion-dev.appspot.com/${defaultImage.name}`)
+        )
+          .then((url) => {
+            profileImageURL = url
+          })
+
+        await updateProfile(auth.currentUser, {
+          displayName: data.name,
+        });
 
         // Saves user info in the "users" collection
         await addDoc(collection(db, "users"), {
@@ -75,16 +92,8 @@ export default function RegisterPage({}) {
           gender: data.gender,
           address: data.address,
           email: data.email,
-          profile_image: defaultImage.name,
-          authId: auth.currentUser.uid
-        });
-
-        uploadBytes(storageRef, defaultImage.blob).then((snapshot) => {
-          console.log(snapshot);
-        });
-
-        await updateProfile(auth.currentUser, {
-          displayName: data.name,
+          profile_image: profileImageURL,
+          authId: auth.currentUser.uid,
         });
 
         setSuccess(true);
