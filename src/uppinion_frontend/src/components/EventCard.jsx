@@ -10,16 +10,16 @@ import {
 
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
-const eventDetails = {
-  name: "ICP BlockChain Hackthon",
-  status: "Open",
-  date: "February 10, 2024",
-  image: "assets/icp-poster.jpg",
-  description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, quam, incidunt velit sequi consequuntur explicabo ea officiis accusantium a veniam blanditiis necessitatibus? Quae, beatae similique nihil iste id qui consequatur?",
-};
+// const eventDetails = {
+//   name: "ICP BlockChain Hackthon",
+//   status: "Open",
+//   date: "February 10, 2024",
+//   image: "assets/icp-poster.jpg",
+//   description:
+//     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, quam, incidunt velit sequi consequuntur explicabo ea officiis accusantium a veniam blanditiis necessitatibus? Quae, beatae similique nihil iste id qui consequatur?",
+// };
 
-export default function EventCard({}) {
+export default function EventCard({ name, status, date, image, description }) {
   return (
     <Card elevation={0} variant="outlined" sx={{ borderRadius: 3 }}>
       <Card
@@ -33,28 +33,31 @@ export default function EventCard({}) {
           borderRadius: 0,
         }}
       >
-        <img src={eventDetails.image} alt="poster" className="eventBanner" />
+        <img src={image} alt="poster" className="eventBanner" />
       </Card>
-      <CardContent sx={{position: "relative"}}>
-        <IconButton color="violet" sx={{position: "absolute", top: "0.5rem", right: "0.5rem"}}>
+      <CardContent sx={{ position: "relative" }}>
+        <IconButton
+          color="violet"
+          sx={{ position: "absolute", top: "0.5rem", right: "0.5rem" }}
+        >
           <BookmarkBorderIcon />
         </IconButton>
         <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-          {eventDetails.name}
+          {name}
         </Typography>
         <Typography variant="body2">
           <span
             className="font-bold"
             style={{
               color:
-                eventDetails.status.toLowerCase() === "open" ? "green" : "red",
+                status.toLowerCase() === "open" ? "green" : "red",
             }}
           >
-            {eventDetails.status.toUpperCase()}
+            {status.toUpperCase()}
           </span>{" "}
-          | {eventDetails.date}
+          | {date}
         </Typography>
-        <Typography sx={{ my: "1rem" }}>{eventDetails.description}</Typography>
+        <Typography sx={{ my: "1rem" }}>{description}</Typography>
       </CardContent>
       <Divider />
       <CardActions

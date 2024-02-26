@@ -7,6 +7,7 @@ import CommunitiesPage from "../pages/community/CommunitiesPage";
 import SavedEventsPage from "../pages/events/SavedEventsPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
+import CommunityDetailsPage from "../pages/community/CommunityDetailsPage";
 
 // const home = {
 //   path: "/",
@@ -39,13 +40,18 @@ const communities = {
 };
 
 const eventDetails = {
-  path: "/events-details/:event",
+  path: "/event-details",
   element: <EventDetailsPage />,
+};
+
+const communityDetails = {
+  path: "/community-details/:communityId",
+  element: <CommunityDetailsPage />,
 };
 
 const home = {
   element: <HomePage />,
-  children: [events, eventDetails],
+  children: [events, eventDetails, communityDetails],
 };
 
 const root = {

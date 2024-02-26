@@ -23,7 +23,7 @@ export default function ProfileCard({}) {
               currentUser?.profile_image ? (
                 <Avatar
                   aria-label="profile"
-                  src={encodeURI(currentUser?.profile_image)}
+                  src={currentUser?.profile_image}
                   alt="avatar"
                 />
               ) : (

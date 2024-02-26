@@ -20,7 +20,7 @@ export const validationRules = {
   },
 
   age: {
-    required: "Age is required"
+    required: "Age is required",
   },
 
   name: {
@@ -28,6 +28,14 @@ export const validationRules = {
     minLength: {
       value: 2,
       message: "Name must be at least 2 characters long",
+    },
+  },
+
+  description: {
+    required: "Description is required",
+    minLength: {
+      value: 2,
+      message: "Description must be at least 2 characters long",
     },
   },
 

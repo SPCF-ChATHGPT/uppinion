@@ -1,4 +1,3 @@
-
 import {
   Box,
   Typography,
@@ -9,8 +8,7 @@ import {
   TextField,
   IconButton,
 } from "@mui/material";
-import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../providers/UserProvider";
+import { useState, useContext } from "react";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
@@ -19,6 +17,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import colors from "../utils/colors";
 import uppinionLogo from "../assets/uppinion.png";
 import DrawerItems from "../components/navigationDrawer/DrawerItems";
+import { UserContext } from "../providers/UserProvider";
 
 const drawerButtons = [
   {
@@ -30,13 +29,6 @@ const drawerButtons = [
     name: "Saved events",
     icon: <BookmarkBorderIcon sx={{ color: colors.primary }} />,
     path: "/saved-events",
-  },
-];
-
-const myCommunities = [
-  {
-    name: "Information and Communications Technology Development Unit",
-    image: "/assets/spcf-ictdu.jpg",
   },
 ];
 
@@ -129,7 +121,6 @@ export default function NavDrawer({ children }) {
         <DrawerItems
           userDetails={currentUser}
           drawerButtons={drawerButtons}
-          myCommunities={myCommunities}
           joinedCommunities={joinedCommunities}
         />
       </Drawer>
@@ -151,7 +142,6 @@ export default function NavDrawer({ children }) {
         <DrawerItems
           userDetails={currentUser}
           drawerButtons={drawerButtons}
-          myCommunities={myCommunities}
           joinedCommunities={joinedCommunities}
         />
       </Drawer>

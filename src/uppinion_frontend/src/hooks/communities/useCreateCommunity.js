@@ -6,19 +6,25 @@ export const useCreateCommunity = async (data) => {
   if (data) {
     try {
       // Add a new document in the communities collection with a generated id.
-      await addDoc(collection(db, "communities"), {
+      const community = await addDoc(collection(db, "communities"), {
         admin: [data.admin],
         image: data.image,
         description: data.description,
         name: data.name,
         join_requests: [],
+        members: [data.members],
       });
       success = {
+        communityId: community.id,
         success: true,
         message: "Community created successfully.",
       };
     } catch (error) {
-      success = { success: false, message: "An error occured, try again." };
+      success = {
+        communityId: null,
+        success: false,
+        message: "An error occured, try again.",
+      };
     }
   }
 

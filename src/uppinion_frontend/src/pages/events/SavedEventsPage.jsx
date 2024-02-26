@@ -3,6 +3,15 @@ import { Box } from "@mui/material";
 import LabeledDivider from "../../components/LabeledDivider";
 
 export default function SavedEventsPage({}) {
+  const eventDetails = {
+    name: "ICP BlockChain Hackathon",
+    status: "Open",
+    date: "February 10, 2024",
+    image: "assets/icp-poster.jpg",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, quam, incidunt velit sequi consequuntur explicabo ea officiis accusantium a veniam blanditiis necessitatibus? Quae, beatae similique nihil iste id qui consequatur?",
+  };
+
   return (
     <Box
       component="div"
@@ -15,11 +24,29 @@ export default function SavedEventsPage({}) {
       }}
     >
       <LabeledDivider label="Saved Events" />
-      <EventCard />
-      <EventCard />
-      <EventCard />
-      <EventCard />
-      <EventCard />
+      <EventCard
+        name={eventDetails.name}
+        status={eventDetails.status}
+        date={eventDetails.date}
+        image={eventDetails.image}
+        description={eventDetails.description}
+      />
+
+      <EventCard
+        name={eventDetails.name}
+        status={eventDetails.status}
+        date={eventDetails.date}
+        image={eventDetails.image}
+        description={eventDetails.description}
+      />
+
+      <EventCard
+        name={eventDetails.name}
+        status={eventDetails.status}
+        date={eventDetails.date}
+        image={eventDetails.image}
+        description={eventDetails.description}
+      />
     </Box>
   );
 }

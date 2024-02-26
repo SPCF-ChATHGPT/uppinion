@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import colors from "../utils/colors";
 
-export default function CommunityHeader({headerButtons, community}) {
+export default function CommunityHeader({headerButtons, name, image}) {
   return (
     <Box
       component="div"
@@ -28,7 +28,7 @@ export default function CommunityHeader({headerButtons, community}) {
       >
         <Avatar
           sx={{ width: 75, height: 75 }}
-          src={community.image}
+          src={image}
           alt="avatar"
         />
         <div>
@@ -36,14 +36,14 @@ export default function CommunityHeader({headerButtons, community}) {
             variant="body1"
             sx={{ display: { xs: "flex", md: "none" }, fontWeight: "bold" }}
           >
-            {community.name}
+            {name}
           </Typography>
           <Typography variant="h5" sx={{ display: { xs: "none", md: "flex" } }}>
-            {community.name}
+            {name}
           </Typography>
-          <Typography variant="subtitle2">
-            {community.memberCount} members
-          </Typography>
+          {/* <Typography variant="subtitle2">
+            {memberCount} members
+          </Typography> */}
         </div>
       </Box>
       <Divider sx={{ bgcolor: colors.divider.light }} />

@@ -21,7 +21,7 @@ export default function CommunityCard({ name, description, image }) {
           px: { xs: "0rem", lg: "1rem" },
         }}
       >
-        <Avatar sx={{ width: 40, height: 40 }} src={image} alt="avatar" />
+        <Avatar sx={{ width: 40, height: 40, border: "1px solid #DDDDDD" }} src={image} alt="avatar" />
         <Box>
           <Typography variant="body1" sx={{ fontWeight: "bold" }}>
             {name}
