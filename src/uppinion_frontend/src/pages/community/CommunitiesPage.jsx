@@ -1,12 +1,17 @@
 import { Box } from "@mui/material";
 import CommunityCard from "../../components/CommunityCard";
 import LabeledDivider from "../../components/LabeledDivider";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useContext } from "react";
 import { usePaginateCommunity } from "../../hooks/pagination/usePaginateCommunity";
+import { UserContext } from "../../providers/UserProvider";
 
 export default function CommunitiesPage({}) {
+  const currentUser = useContext(UserContext);
   const [lastVisible, setLastVisible] = useState(null);
-  const { communities, error } = usePaginateCommunity(lastVisible);
+  const { communities, error } = usePaginateCommunity(
+    lastVisible,
+    currentUser?.userId
+  );
 
   const observer = useRef();
   const lastCommunityElementVisibleRef = useCallback(
@@ -44,6 +49,11 @@ export default function CommunitiesPage({}) {
                   name={community.name}
                   description={community.description}
                   image={community.image}
+                  joinRequest={community.requestedToJoin}
+                  isMember={community.isMember}
+                  communityId={community.communityId}
+                  userId={currentUser.userId}
+                  memberCount={community.memberCount}
                 />
               </div>
             );
@@ -54,6 +64,11 @@ export default function CommunitiesPage({}) {
                   name={community.name}
                   description={community.description}
                   image={community.image}
+                  joinRequest={community.requestedToJoin}
+                  isMember={community.isMember}
+                  communityId={community.communityId}
+                  userId={currentUser.userId}
+                  memberCount={community.memberCount}
                 />
               </div>
             );

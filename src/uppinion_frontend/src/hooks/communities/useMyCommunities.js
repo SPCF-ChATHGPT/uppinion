@@ -15,7 +15,7 @@ export const useMyCommunities = (communityId) => {
         const eventRef = collection(db, "communities");
         const q = query(
           eventRef,
-          where("admin", "array-contains", { user_id: communityId })
+          where("admin", "array-contains", communityId)
         );
 
         const querySnapshot = await getDocs(q);

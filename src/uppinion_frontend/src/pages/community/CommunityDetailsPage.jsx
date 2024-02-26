@@ -1,41 +1,24 @@
 import { Box } from "@mui/material";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 
 import CommunityHeader from "../../components/CommunityHeader";
 import EventCard from "../../components/EventCard";
 import { useCommunity } from "../../hooks/communities/useCommunity";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { UserContext } from "../../providers/UserProvider";
 
 export default function CommunityDetailsPage({}) {
+  const currentUser = useContext(UserContext);
   const [allEvents, setAllEvents] = useState([]);
   const { communityId } = useParams();
-  const { community, events, loading } = useCommunity(communityId);
-  // const { community, events } = useCommunity("20L1tAZaMrGmrYORAp1x");
+  const { community, events, loading } = useCommunity(
+    communityId,
+    currentUser?.userId
+  );
 
   useEffect(() => {
     setAllEvents(events);
   }, [events]);
-
-  const headerButtons = [
-    {
-      name: "Edit Details",
-      icon: <EditOutlinedIcon sx={{ color: "white" }} />,
-    },
-    {
-      name: "Join Requests",
-      icon: <AddCircleOutlineOutlinedIcon sx={{ color: "white" }} />,
-    },
-    {
-      name: "Add Event",
-      icon: <CalendarTodayOutlinedIcon sx={{ color: "white" }} />,
-    },
-  ];
-
-  console.log(community);
-  console.log(events);
 
   if (loading) {
     return <>Loading...</>;
@@ -44,9 +27,10 @@ export default function CommunityDetailsPage({}) {
   return (
     <>
       <CommunityHeader
-        headerButtons={headerButtons}
+        isAdmin={community.isAdmin ? true : false}
         name={community.name}
         image={community.image}
+        memberCount={community.memberCount}
       />
       <Box
         component="div"

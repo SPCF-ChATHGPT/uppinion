@@ -16,7 +16,6 @@ import { useCreateCommunity } from "../../hooks/communities/useCreateCommunity";
 import { useContext, useRef, useState } from "react";
 import { UserContext } from "../../providers/UserProvider";
 import { validationRules } from "../../utils/validationRules";
-import { useCommunity } from "../../hooks/communities/useCommunity";
 import { useNavigate } from "react-router-dom";
 
 export default function NewCommunityDialog({ open, handleClose }) {
@@ -80,11 +79,11 @@ export default function NewCommunityDialog({ open, handleClose }) {
     }
 
     const { name, description } = data;
-    const admin = { user_id: currentUser?.userId };
+    const admin = { user_id: currentUser.userId };
 
     const { communityId, success, error } = await useCreateCommunity({
         admin: admin,
-        members: admin,
+        members: currentUser.userId,
         image: profileImageUrl,
         description: description,
         name: name,

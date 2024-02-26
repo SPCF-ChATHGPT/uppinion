@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
-export const usePaginateCommunity = (lastVisible) => {
+export const usePaginateCommunity = (lastVisible, userId) => {
   const PAGINATED_RESULT_LIMIT = 5;
   const [communities, setCommunities] = useState([]);
   const [error, setError] = useState(null);
@@ -36,10 +36,22 @@ export const usePaginateCommunity = (lastVisible) => {
 
         const documentSnapshots = await getDocs(queryConstraint);
         documentSnapshots.forEach((doc) => {
-          communityArr.push({
+          let currentCommunity = {
             communityId: doc.id,
             ...doc.data(),
-          });
+            memberCount: doc.data().members.length,
+            requestedToJoin: false,
+            isMember: false,
+          };
+          if (doc.data().join_requests.includes(userId)) {
+            currentCommunity.requestedToJoin = true;
+            communityArr.push(currentCommunity);
+          } else if (doc.data().members.includes(userId)) {
+            currentCommunity.isMember = true;
+            communityArr.push(currentCommunity);
+          } else {
+            communityArr.push(currentCommunity);
+          }
         });
 
         // Only update state if component is still mounted
@@ -62,7 +74,7 @@ export const usePaginateCommunity = (lastVisible) => {
     return () => {
       isMounted = false;
     };
-  }, [lastVisible]); // Dependency array
+  }, [lastVisible, userId]); // Dependency array
 
   return { communities, error };
 };

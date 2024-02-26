@@ -9,13 +9,14 @@ import {
 import { useEffect, useState } from "react";
 import { db } from "../../config/firebase";
 
-export const useCommunity = (communityId) => {
+export const useCommunity = (communityId, userId) => {
   const [community, setCommunity] = useState({});
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     let isMounted = true;
+    setCommunity({});
 
     const getCommunity = async () => {
       setLoading(true);
@@ -23,10 +24,12 @@ export const useCommunity = (communityId) => {
         const communityRef = doc(db, "communities", communityId);
         const docSnap = await getDoc(communityRef);
 
-        if (docSnap.exists() && isMounted) {
+        if (docSnap.exists() && userId && isMounted) {
           setCommunity({
             ...docSnap.data(),
             communityId: docSnap.id,
+            memberCount: docSnap.data().members.length,
+            isAdmin: docSnap.data().admin.includes(userId) ? true : false,
           });
 
           const eventRef = collection(db, "events");
@@ -59,7 +62,12 @@ export const useCommunity = (communityId) => {
     return () => {
       isMounted = false;
     };
-  }, [communityId]);
+  }, [communityId, userId]);
 
-  return { community: community, events: events, error: error, loading: loading };
+  return {
+    community: community,
+    events: events,
+    error: error,
+    loading: loading,
+  };
 };
