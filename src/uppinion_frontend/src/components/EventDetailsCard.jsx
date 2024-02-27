@@ -6,6 +6,7 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
+import { useState } from "react";
 
 const cardTagButtons = [
   {
@@ -30,48 +31,51 @@ const cardTagButtons = [
   },
 ];
 
-const eventDetails = {
-  name: "ICP BlockChain Hackthon",
-  status: "Open",
-  date: "February 10, 2024",
-  image: "assets/icp-poster.jpg",
-  description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, quam, incidunt velit sequi consequuntur explicabo ea officiis accusantium a veniam blanditiis necessitatibus? Quae, beatae similique nihil iste id qui consequatur?",
-};
+export default function EventDetailsCard({
+  name,
+  description,
+  status,
+  date,
+  image,
+  handleSetSuggestion,
+  currentType,
+}) {
+  const [selectedType, setSelectedType] = useState(currentType);
 
-export default function EventDetailsCard({}) {
   return (
-    <Card elevation={0} variant="outlined" sx={{ borderRadius: 3 }}>
-      <Card
+    <Card
       elevation={0}
+      sx={{ borderBottom: "1px solid #DDDDDD", borderRadius: 0 }}
+    >
+      <Card
+        elevation={0}
         sx={{
           display: "flex",
           alignItems: "center",
           width: "100%",
           height: "200px",
           overflow: "hidden",
-          borderRadius: 0
+          borderRadius: 0,
         }}
       >
-        <img src={eventDetails.image} alt="poster" style={{width: "100%"}} />
+        <img src={image} alt="poster" style={{ width: "100%" }} />
       </Card>
-      <CardContent>
+      <CardContent sx={{ mx: { xs: 0, lg: "4rem" } }}>
         <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-          {eventDetails.name}
+          {name}
         </Typography>
         <Typography variant="body2">
           <span
             className="font-bold"
             style={{
-              color:
-                eventDetails.status.toLowerCase() === "open" ? "green" : "red",
+              color: status?.toLowerCase() === "open" ? "green" : "red",
             }}
           >
-            {eventDetails.status.toUpperCase()}
+            {status?.toUpperCase()}
           </span>{" "}
-          | {eventDetails.date}
+          | {date}
         </Typography>
-        <Typography sx={{ my: "1rem" }}>{eventDetails.description}</Typography>
+        <Typography sx={{ my: "1rem" }}>{description}</Typography>
       </CardContent>
       <Divider />
       <CardActions
@@ -79,16 +83,20 @@ export default function EventDetailsCard({}) {
           px: "1rem",
           width: "100%",
           display: "flex",
-          justifyContent: "space-between",
+          mx: { xs: 0, lg: "4rem" },
         }}
       >
         {cardTagButtons.map((btn) => (
           <Button
             key={Math.random()}
             size="small"
-            fullWidth
             color="violet"
-            variant={btn.variant}
+            variant={
+              btn.name.toLowerCase() === currentType.toLowerCase()
+                ? "contained"
+                : "text"
+            }
+            onClick={() => handleSetSuggestion(btn.name.toLowerCase())}
           >
             {btn.name}
           </Button>

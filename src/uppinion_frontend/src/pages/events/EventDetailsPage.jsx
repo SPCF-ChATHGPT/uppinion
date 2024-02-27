@@ -1,9 +1,16 @@
+import { Box } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import SuggestionCard from "../../components/SuggestionCard";
 import EventDetailsCard from "../../components/EventDetailsCard";
-import { Box } from "@mui/material";
 import LabeledDivider from "../../components/LabeledDivider";
+import { UserContext } from "../../providers/UserProvider";
+import { useEvent } from "../../hooks/events/useEvent";
+import MySuggestionCard from "../../components/MySuggestionCard";
+import AddSuggestionCard from "../../components/AddSuggestionCard";
 
-const suggestions = [
+const test = [
   {
     name: "Blockchain Summit",
     type: "Program",
@@ -77,24 +84,91 @@ const suggestions = [
 ];
 
 export default function EventDetailsPage({}) {
+  const [suggestionType, setSuggestionType] = useState("venue");
+  const [displayedSuggestions, setDisplayedSuggestions] = useState([]);
+  const currentUser = useContext(UserContext);
+  const { communityId, eventId } = useParams();
+  const { suggestions, mySuggestion, event, loading, error } = useEvent(
+    eventId,
+    currentUser?.userId
+  );
+
+  const handleSetSuggestion = (type) => {
+    setSuggestionType(type);
+  };
+
+  useEffect(() => {
+    if (suggestionType) {
+      console.log(suggestionType);
+      let items = [];
+      items = suggestions.filter(
+        (suggestion) =>
+          suggestion.type.toLowerCase() === suggestionType.toLowerCase()
+      );
+
+      setDisplayedSuggestions(items);
+    }
+  }, [suggestionType]);
+
+  if (loading) {
+    return <>Loading...</>;
+  }
+
   return (
-    <Box
-      component="div"
-      sx={{ display: "flex", flexDirection: "column", gap: "0.75rem", mx: { lg: "5rem"} }}
-    >
-      <EventDetailsCard />
+    <>
+      <EventDetailsCard
+        name={event.name}
+        description={event.description}
+        image={event.image}
+        date={event.date}
+        status={event.status}
+        handleSetSuggestion={handleSetSuggestion}
+        currentType={suggestionType}
+      />
 
-      <LabeledDivider label="Top Suggestions" />
+      <AddSuggestionCard />
 
-      {suggestions.map((suggestion) => (
-        <SuggestionCard
-          key={Math.random()}
-          name={suggestion.name}
-          description={suggestion.description}
-          type={suggestion.type}
-          votes={suggestion.votes}
-        />
-      ))}
-    </Box>
+      <Box
+        component="div"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.75rem",
+          mx: { xs: "1rem", lg: "5rem" },
+          mt: "1rem",
+        }}
+      >
+        {mySuggestion.length > 0 && <LabeledDivider label="My Suggestions" />}
+
+        {mySuggestion.length > 0 &&
+          mySuggestion.map((suggestion) => (
+            <MySuggestionCard
+              name={suggestion.name}
+              description={suggestion.description}
+              type={suggestion.type}
+              votes={suggestion.votes.length}
+            />
+          ))}
+
+        {displayedSuggestions.length > 0 && (
+          <LabeledDivider
+            label={`${displayedSuggestions.length} ${
+              displayedSuggestions.length > 1 ? "Suggestions" : "Suggestion"
+            }`}
+            withDivider={true}
+          />
+        )}
+
+        {displayedSuggestions.map((suggestion) => (
+          <SuggestionCard
+            key={Math.random()}
+            name={suggestion.name}
+            description={suggestion.description}
+            type={suggestion.type}
+            votes={suggestion.votes.length}
+          />
+        ))}
+      </Box>
+    </>
   );
 }

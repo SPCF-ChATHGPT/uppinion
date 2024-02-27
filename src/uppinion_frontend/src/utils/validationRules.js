@@ -23,6 +23,10 @@ export const validationRules = {
     required: "Age is required",
   },
 
+  date: {
+    required: "Age is required",
+  },
+
   name: {
     required: "Name is required",
     minLength: {

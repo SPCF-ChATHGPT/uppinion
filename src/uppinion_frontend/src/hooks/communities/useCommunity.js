@@ -30,6 +30,8 @@ export const useCommunity = (communityId, userId) => {
             communityId: docSnap.id,
             memberCount: docSnap.data().members.length,
             isAdmin: docSnap.data().admin.includes(userId) ? true : false,
+            requestedToJoin: docSnap.data().join_requests.includes(userId) ? true : false,
+            isMember: docSnap.data().members.includes(userId) ? true : false,
           });
 
           const eventRef = collection(db, "events");

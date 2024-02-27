@@ -11,18 +11,25 @@ import {
 } from "@mui/material";
 import { getStorage, uploadBytes, ref, getDownloadURL } from "firebase/storage";
 import { useForm } from "react-hook-form";
-
-import { useCreateCommunity } from "../../hooks/communities/useCreateCommunity";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useContext, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { format } from "date-fns";
+
 import { UserContext } from "../../providers/UserProvider";
 import { validationRules } from "../../utils/validationRules";
-import { useNavigate } from "react-router-dom";
+import { useCreateEvent } from "../../hooks/events/useCreateEvent";
 
-export default function NewCommunityDialog({ open, handleClose }) {
+export default function NewEventDialog({ open, handleClose }) {
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const { communityId } = useParams();
   const currentUser = useContext(UserContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     register,
@@ -63,7 +70,7 @@ export default function NewCommunityDialog({ open, handleClose }) {
     });
   };
 
-  const createCommunity = async (data) => {
+  const createEvent = async (data) => {
     setLoading(true);
 
     let profileImageUrl = "";
@@ -78,18 +85,19 @@ export default function NewCommunityDialog({ open, handleClose }) {
       }
     }
 
-    const { name, description } = data;
-    const admin = { user_id: currentUser.userId };
+    const { name, description, date } = data;
 
-    const { communityId, success, error } = await useCreateCommunity({
-        admin: admin,
-        members: currentUser.userId,
-        image: profileImageUrl,
-        description: description,
-        name: name,
+    const { eventId, success, error } = await useCreateEvent({
+      communityId: communityId,
+      date: format(selectedDate.$d, 'MM-dd-yyyy'),
+      description: description,
+      name: name,
+      image: profileImageUrl,
+      status: "OPEN",
     });
 
-    navigate(`/community-details/${communityId}`)
+    navigate(`/event-details/${communityId}/${eventId}`);
+
     handleClose();
     setLoading(false);
   };
@@ -97,16 +105,16 @@ export default function NewCommunityDialog({ open, handleClose }) {
   return (
     <Box>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create a Community</DialogTitle>
+        <DialogTitle>Create an Event</DialogTitle>
         <Divider />
         <DialogContent>
           <DialogContentText>
-            Making the event planning inclusive to all participants starts
-            here...
+            Collect superb ideas from the brilliant minds within the
+            community...
           </DialogContentText>
           <form
             className="flex flex-col gap-4"
-            onSubmit={handleSubmit(createCommunity)}
+            onSubmit={handleSubmit(createEvent)}
           >
             <TextField
               autoFocus
@@ -134,6 +142,20 @@ export default function NewCommunityDialog({ open, handleClose }) {
               variant="outlined"
               {...register("description", validationRules.description)}
             />
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker
+                  required
+                  id="date"
+                  name="date"
+                  label="Date"
+                  value={selectedDate}
+                  onChange={(newVal) => setSelectedDate(newVal)}
+                  sx={{ width: "100%" }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
 
             <input
               type="file"

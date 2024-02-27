@@ -113,13 +113,6 @@ export default function CommunityCard({
       </CardContent>
 
       <CardActions sx={{ px: { xs: "0rem", lg: "1rem" }, pb: "1rem" }}>
-        <CommunityButton
-          joinRequest={joinRequest}
-          communityId={communityId}
-          isMember={isMember}
-          userId={userId}
-        />
-
         <Button
           size="small"
           variant="text"
@@ -127,7 +120,7 @@ export default function CommunityCard({
           onClick={viewCommunity}
           sx={{ ml: "auto", fontWeight: "bold" }}
         >
-          DETAILS
+          COMMUNITY DETAILS
         </Button>
       </CardActions>
       <Divider />

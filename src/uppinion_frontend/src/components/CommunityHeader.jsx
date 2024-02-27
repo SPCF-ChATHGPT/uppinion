@@ -2,34 +2,91 @@ import { Box, Avatar, Typography, Divider, Button } from "@mui/material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
+import { useJoinRequest } from "../hooks/communities/useJoinRequest";
 import colors from "../utils/colors";
+import { UserContext } from "../providers/UserProvider";
+import { useParams } from "react-router-dom";
 
-const adminButtons = [
-  {
-    name: "Edit Details",
-    icon: <EditOutlinedIcon sx={{ color: "white" }} />,
-  },
-  {
-    name: "Join Requests",
-    icon: <AddCircleOutlineOutlinedIcon sx={{ color: "white" }} />,
-  },
-  {
-    name: "Add Event",
-    icon: <CalendarTodayOutlinedIcon sx={{ color: "white" }} />,
-  },
-];
+import NewEventDialog from "./dialogs/NewEventDialog";
 
-const memberButtons = [
-  {
-    name: "Edit Details",
-    icon: <EditOutlinedIcon sx={{ color: "white" }} />,
-  },
-];
+export default function CommunityHeader({
+  isAdmin,
+  name,
+  image,
+  memberCount,
+  description,
+  joinRequest,
+  isMember,
+}) {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-export default function CommunityHeader({ isAdmin, name, image, memberCount }) {
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const adminButtons = [
+    {
+      name: "Edit Details",
+      icon: <EditOutlinedIcon sx={{ color: "white" }} />,
+      func: () => console.log("Edit Details"),
+    },
+    {
+      name: "Join Requests",
+      icon: <AddCircleOutlineOutlinedIcon sx={{ color: "white" }} />,
+      func: () => console.log("Join Request"),
+    },
+    {
+      name: "Add Event",
+      icon: <CalendarTodayOutlinedIcon sx={{ color: "white" }} />,
+      func: handleClickOpen,
+    },
+  ];
+
+  const memberButtons = [
+    {
+      joinRequest: "Request to Join",
+      cancelRequest: "Cancel Join Request",
+      icon: <AddCircleOutlineOutlinedIcon sx={{ color: "white" }} />,
+    },
+  ];
+
   const [headerButtons, setHeaderButtons] = useState(memberButtons);
+  const currentUser = useContext(UserContext);
+  const [isRequested, setIsRequested] = useState(joinRequest);
+  const { communityId } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  //Updates the join request status of the user.
+  const updateJoinRequests = async () => {
+    setLoading(true);
+    let action = isRequested ? "delete" : "add";
+    const { error } = await useJoinRequest(
+      communityId,
+      action,
+      currentUser.userId
+    );
+
+    if (!error) {
+      switch (action) {
+        case "add":
+          setIsRequested(true);
+          break;
+
+        case "delete":
+          setIsRequested(false);
+          break;
+
+        default:
+          break;
+      }
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
     if (isAdmin) {
@@ -45,6 +102,7 @@ export default function CommunityHeader({ isAdmin, name, image, memberCount }) {
         color: "white",
       }}
     >
+      <NewEventDialog open={open} handleClose={handleClose} />
       <Box
         component="div"
         sx={{
@@ -70,6 +128,15 @@ export default function CommunityHeader({ isAdmin, name, image, memberCount }) {
           </Typography>
         </div>
       </Box>
+      <Box
+        component="div"
+        sx={{
+          px: "1rem",
+          mb: "1rem",
+        }}
+      >
+        <Typography variant="body1">{description}</Typography>
+      </Box>
       <Divider sx={{ bgcolor: colors.divider.light }} />
       <Box
         component="div"
@@ -82,6 +149,7 @@ export default function CommunityHeader({ isAdmin, name, image, memberCount }) {
         }}
       >
         {headerButtons &&
+          isAdmin &&
           headerButtons.map((btn) => (
             <Box
               key={Math.random()}
@@ -92,6 +160,7 @@ export default function CommunityHeader({ isAdmin, name, image, memberCount }) {
                 size="small"
                 variant="text"
                 startIcon={btn.icon}
+                onClick={btn.func}
               >
                 {btn.name}
               </Button>
@@ -102,8 +171,39 @@ export default function CommunityHeader({ isAdmin, name, image, memberCount }) {
                 }}
                 size="small"
                 fullWidth
+                onClick={btn.func}
               >
                 {btn.icon}
+              </Button>
+            </Box>
+          ))}
+
+        {headerButtons &&
+          !isAdmin &&
+          headerButtons.map((btn) => (
+            <Box key={Math.random()} sx={{ width: { xs: "100%" } }}>
+              <Button
+                sx={{
+                  color: "white",
+                  display: { xs: "none", sm: "flex" },
+                }}
+                size="small"
+                variant="text"
+                startIcon={btn.icon}
+                onClick={updateJoinRequests}
+              >
+                {isRequested ? btn.cancelRequest : btn.joinRequest}
+              </Button>
+              <Button
+                sx={{
+                  color: "white",
+                  display: { xs: "flex", sm: "none" },
+                }}
+                size="small"
+                fullWidth
+                onClick={updateJoinRequests}
+              >
+                {isRequested ? btn.cancelRequest : btn.joinRequest}
               </Button>
             </Box>
           ))}

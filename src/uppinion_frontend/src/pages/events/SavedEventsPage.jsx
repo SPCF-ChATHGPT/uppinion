@@ -4,6 +4,7 @@ import LabeledDivider from "../../components/LabeledDivider";
 
 export default function SavedEventsPage({}) {
   const eventDetails = {
+    eventId: "odZ9FPMRsE3avLs4zygJ",
     name: "ICP BlockChain Hackathon",
     status: "Open",
     date: "February 10, 2024",

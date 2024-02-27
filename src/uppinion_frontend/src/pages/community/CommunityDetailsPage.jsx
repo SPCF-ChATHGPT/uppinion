@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
+import LabeledDivider from "../../components/LabeledDivider";
 import CommunityHeader from "../../components/CommunityHeader";
 import EventCard from "../../components/EventCard";
 import { useCommunity } from "../../hooks/communities/useCommunity";
@@ -31,6 +32,9 @@ export default function CommunityDetailsPage({}) {
         name={community.name}
         image={community.image}
         memberCount={community.memberCount}
+        description={community.description}
+        joinRequest={community.requestedToJoin}
+        isMember={community.isMember}
       />
       <Box
         component="div"
@@ -42,6 +46,8 @@ export default function CommunityDetailsPage({}) {
           my: "1rem",
         }}
       >
+        <LabeledDivider label="Events"></LabeledDivider>
+
         {allEvents &&
           allEvents.map((item) => (
             <EventCard
@@ -51,6 +57,9 @@ export default function CommunityDetailsPage({}) {
               date={item.date}
               image={item.image}
               description={item.description}
+              eventId={item.eventId}
+              communityId={communityId}
+              isMember={community.isMember}
             />
           ))}
       </Box>

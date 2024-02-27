@@ -1,10 +1,10 @@
 import { Divider, Typography } from "@mui/material";
 
-export default function LabeledDivider({ label }) {
+export default function LabeledDivider({ label, withDivider = false }) {
   return (
     <>
-      <Divider />
-      <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+      {withDivider && <Divider />}
+      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
         {label}
       </Typography>
     </>

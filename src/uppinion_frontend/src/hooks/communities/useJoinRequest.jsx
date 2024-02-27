@@ -26,7 +26,7 @@ export const useJoinRequest = async (communityId, action, userId) => {
 
     return { error: null };
   } catch (error) {
-    return { error: error };
     console.log(error);
+    return { error: error };
   }
 };
