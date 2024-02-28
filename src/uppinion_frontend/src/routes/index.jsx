@@ -8,6 +8,7 @@ import SavedEventsPage from "../pages/events/SavedEventsPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import CommunityDetailsPage from "../pages/community/CommunityDetailsPage";
+import JoinRequestsPage from "../pages/community/JoinRequestsPage"
 
 // const home = {
 //   path: "/",
@@ -39,6 +40,11 @@ const communities = {
   element: <CommunitiesPage />,
 };
 
+const joinRequests = {
+  path: "/join-requests/:communityId",
+  element: <JoinRequestsPage />,
+};
+
 const eventDetails = {
   path: "/event-details/:communityId/:eventId",
   element: <EventDetailsPage />,
@@ -51,7 +57,7 @@ const communityDetails = {
 
 const home = {
   element: <HomePage />,
-  children: [events, eventDetails, communityDetails],
+  children: [events, eventDetails, communityDetails, joinRequests],
 };
 
 const root = {

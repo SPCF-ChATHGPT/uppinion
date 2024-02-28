@@ -9,62 +9,8 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import { useState } from "react";
 
-import colors from "../utils/colors";
 import { useNavigate } from "react-router-dom";
-import { useJoinRequest } from "../hooks/communities/useJoinRequest";
-
-function CommunityButton({ joinRequest, communityId, userId, isMember }) {
-  const [isRequested, setIsRequested] = useState(joinRequest);
-  const [loading, setLoading] = useState(false);
-
-  const updateJoinRequests = async (action) => {
-    setLoading(true);
-    const { error } = await useJoinRequest(communityId, action, userId);
-
-    if (!error) {
-      switch (action) {
-        case "add":
-          setIsRequested(true);
-          break;
-
-        case "delete":
-          setIsRequested(false);
-          break;
-
-        default:
-          break;
-      }
-    }
-    setLoading(false);
-  };
-
-  if (isMember) return;
-
-  return isRequested ? (
-    <Button
-      size="small"
-      variant="text"
-      onClick={() => updateJoinRequests("delete")}
-      disabled={loading}
-      sx={{ ml: "auto", fontWeight: "bold", color: colors.error }}
-    >
-      CANCEL REQUEST
-    </Button>
-  ) : (
-    <Button
-      size="small"
-      variant="text"
-      color="violet"
-      onClick={() => updateJoinRequests("add")}
-      disabled={loading}
-      sx={{ ml: "auto", fontWeight: "bold" }}
-    >
-      REQUEST TO JOIN
-    </Button>
-  );
-}
 
 export default function CommunityCard({
   name,

@@ -3,11 +3,11 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useJoinRequest } from "../hooks/communities/useJoinRequest";
 import colors from "../utils/colors";
 import { UserContext } from "../providers/UserProvider";
-import { useParams } from "react-router-dom";
 
 import NewEventDialog from "./dialogs/NewEventDialog";
 
@@ -20,6 +20,7 @@ export default function CommunityHeader({
   joinRequest,
   isMember,
 }) {
+  const navigate = useNavigate();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -37,7 +38,7 @@ export default function CommunityHeader({
     {
       name: "Join Requests",
       icon: <AddCircleOutlineOutlinedIcon sx={{ color: "white" }} />,
-      func: () => console.log("Join Request"),
+      func: () => navigate(`/join-requests/${communityId}`),
     },
     {
       name: "Add Event",
@@ -180,6 +181,7 @@ export default function CommunityHeader({
 
         {headerButtons &&
           !isAdmin &&
+          !isMember &&
           headerButtons.map((btn) => (
             <Box key={Math.random()} sx={{ width: { xs: "100%" } }}>
               <Button

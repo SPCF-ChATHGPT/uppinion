@@ -52,7 +52,7 @@ export default function EventDetailsPage({}) {
         currentType={suggestionType}
       />
 
-      <AddSuggestionCard />
+      <AddSuggestionCard eventStatus={event.status}/>
 
       <Box
         component="div"

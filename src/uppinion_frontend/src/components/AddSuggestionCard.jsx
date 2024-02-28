@@ -6,13 +6,31 @@ import {
   Card,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import NewSuggestionDialog from "./dialogs/NewSuggestionDialog";
 import colors from "../utils/colors";
+import { useIsAdmin } from "../hooks/communities/useIsAdmin";
+import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "../providers/UserProvider";
+import { useEventStatus } from "../hooks/communities/useEventStatus";
 
-function AddSuggestionCard({}) {
+function AddSuggestionCard({ eventStatus }) {
+  const currentUser = useContext(UserContext);
+  const { communityId, eventId } = useParams();
+  const { isAdmin, loading } = useIsAdmin(communityId, currentUser?.userId);
+
+  const navigate = useNavigate();
+
+  const updateEventStatus = (action) => {
+    const { error } = useEventStatus(eventId, action);
+
+    if (error) return;
+
+    navigate(`/community-details/${communityId}`);
+  };
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -64,13 +82,6 @@ function AddSuggestionCard({}) {
           >
             <Typography>Make a suggestion...</Typography>
           </Card>
-          {/* <TextField
-            multiline
-            variant="standard"
-            placeholder="Make a suggestion..."
-            fullWidth
-            onClick={handleClickOpen}
-          /> */}
         </Card>
         <Card
           elevation={0}
@@ -83,14 +94,30 @@ function AddSuggestionCard({}) {
             alignItems: "center",
           }}
         >
-          <Button
-            variant="contained"
-            color="violet"
-            fullWidth
-            startIcon={<CheckCircleOutlineOutlinedIcon />}
-          >
-            Will Attend
-          </Button>
+          {isAdmin ? (
+            <Button
+              variant="contained"
+              color="violet"
+              fullWidth
+              startIcon={<CheckCircleOutlineOutlinedIcon />}
+              onClick={
+                eventStatus === "OPEN"
+                  ? () => updateEventStatus("close")
+                  : () => updateEventStatus("open")
+              }
+            >
+              {eventStatus === "OPEN" ? "CLOSE SUGGESTING" : "OPEN SUGGESTING"}
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="violet"
+              fullWidth
+              startIcon={<CheckCircleOutlineOutlinedIcon />}
+            >
+              Will Attend
+            </Button>
+          )}
         </Card>
       </Box>
     </>
