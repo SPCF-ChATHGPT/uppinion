@@ -23,6 +23,10 @@ export const validationRules = {
     required: "Age is required",
   },
 
+  suggestionType: {
+    required: "Suggestion type is required",
+  },
+
   date: {
     required: "Age is required",
   },

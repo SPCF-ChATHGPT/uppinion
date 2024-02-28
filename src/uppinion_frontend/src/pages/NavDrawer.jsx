@@ -66,7 +66,6 @@ export default function NavDrawer({ children }) {
         position="fixed"
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
-          backgroundColor: "white",
         }}
       >
         <Toolbar disableGutters sx={{ px: "1rem" }}>
@@ -87,7 +86,7 @@ export default function NavDrawer({ children }) {
             style={{ width: "40px", height: "40px" }}
           />
           <Typography
-            color={"black"}
+            color={"white"}
             variant="body1"
             noWrap
             component="div"

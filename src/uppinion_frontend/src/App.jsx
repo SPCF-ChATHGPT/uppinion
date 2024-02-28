@@ -12,6 +12,7 @@ const violetMain = colors.primary;
 
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     violet: {
       main: violetMain,
       light: alpha(violetBase, 0.5),

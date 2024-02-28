@@ -9,9 +9,16 @@ import {
   Divider,
 } from "@mui/material";
 import colors from "../utils/colors";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function MySuggestionCard({ name, description, type, votes }) {
+export default function MySuggestionCard({
+  name,
+  description,
+  type,
+  votes,
+  suggestionId,
+  voted,
+}) {
   return (
     <Card elevation={0}>
       <CardContent
@@ -67,7 +74,7 @@ export default function MySuggestionCard({ name, description, type, votes }) {
           startIcon={<DeleteIcon />}
           sx={{ ml: "auto", color: colors.error, fontWeight: "bold" }}
         >
-          REMOVE SUGGESTION
+          REMOVE
         </Button>
       </CardActions>
     </Card>

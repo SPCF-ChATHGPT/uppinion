@@ -6,7 +6,7 @@ export default {
     backlog: "#DF280F",
     error: "#FF1E1E",
     errorBackground: "#FFEBEB",
-    background: "#FFFFFF",
+    background: "#0A0A0A",
     navBackground: "#F8F8F8",
     divider: {
         light: "#D2D2D2",

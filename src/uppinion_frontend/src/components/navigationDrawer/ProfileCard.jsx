@@ -12,7 +12,7 @@ export default function ProfileCard({}) {
     <Card
       elevation={0}
       sx={{
-        backgroundColor: colors.navBackground,
+        backgroundColor: colors.background,
         mb: "0.5rem",
       }}
     >

@@ -1,9 +1,31 @@
-import { Box, Avatar, TextField, Button, Card } from "@mui/material";
-import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import {
+  Box,
+  Avatar,
+  TextField,
+  Button,
+  Card,
+  Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 
-export default function AddSuggestionCard({}) {
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import NewSuggestionDialog from "./dialogs/NewSuggestionDialog";
+import colors from "../utils/colors";
+
+function AddSuggestionCard({}) {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
+      <NewSuggestionDialog open={open} handleClose={handleClose} />
       <Box
         sx={{
           display: "flex",
@@ -28,12 +50,27 @@ export default function AddSuggestionCard({}) {
           }}
         >
           <Avatar />
-          <TextField
+          <Card
+            variant="outlined"
+            sx={{
+              width: "100%",
+              py: "0.5rem",
+              px: "1rem",
+              borderRadius: 10,
+              bgcolor: colors.background,
+              border: "none",
+            }}
+            onClick={handleClickOpen}
+          >
+            <Typography>Make a suggestion...</Typography>
+          </Card>
+          {/* <TextField
             multiline
             variant="standard"
             placeholder="Make a suggestion..."
             fullWidth
-          />
+            onClick={handleClickOpen}
+          /> */}
         </Card>
         <Card
           elevation={0}
@@ -59,3 +96,5 @@ export default function AddSuggestionCard({}) {
     </>
   );
 }
+
+export default AddSuggestionCard;

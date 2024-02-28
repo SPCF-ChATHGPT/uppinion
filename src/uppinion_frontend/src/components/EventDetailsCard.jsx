@@ -45,7 +45,7 @@ export default function EventDetailsCard({
   return (
     <Card
       elevation={0}
-      sx={{ borderBottom: "1px solid #DDDDDD", borderRadius: 0 }}
+      sx={{ borderBottom: "1px solid #373737", borderRadius: 0 }}
     >
       <Card
         elevation={0}

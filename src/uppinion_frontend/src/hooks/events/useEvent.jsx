@@ -37,6 +37,7 @@ export const useEvent = (eventId, userId) => {
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
+            let voted = { voted: false };
             if (doc.data().user_id === userId) {
               setMySuggestion((prevSuggestion) => [
                 ...prevSuggestion,
@@ -46,10 +47,16 @@ export const useEvent = (eventId, userId) => {
                 },
               ]);
             }
+
+            if (doc.data().votes.includes(userId)) {
+              voted.voted = true;
+            }
+
             setSuggestions((prevSuggestion) => [
               ...prevSuggestion,
               {
                 suggestionId: doc.id,
+                ...voted,
                 ...doc.data(),
               },
             ]);
@@ -74,8 +81,6 @@ export const useEvent = (eventId, userId) => {
       isMounted = false;
     };
   }, [eventId, userId]);
-
-  console.log(suggestions);
 
   return {
     suggestions: suggestions,

@@ -1,7 +1,7 @@
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
-export const useCreateSuggestions = async (data) => {
+export const useCreateSuggestion = async (data) => {
   let success = {};
   if (data) {
     try {
