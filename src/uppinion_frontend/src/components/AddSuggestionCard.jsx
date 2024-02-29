@@ -34,6 +34,7 @@ function AddSuggestionCard({ eventStatus }) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
+    if (eventStatus.toLowerCase() === "close") return;
     setOpen(true);
   };
 

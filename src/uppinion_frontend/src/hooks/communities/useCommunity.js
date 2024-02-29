@@ -16,7 +16,8 @@ export const useCommunity = (communityId, userId) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     let isMounted = true;
-    setCommunity({});
+    const eventsArr = [];
+    // setCommunity({});
 
     const getCommunity = async () => {
       setLoading(true);
@@ -30,7 +31,9 @@ export const useCommunity = (communityId, userId) => {
             communityId: docSnap.id,
             memberCount: docSnap.data().members.length,
             isAdmin: docSnap.data().admin.includes(userId) ? true : false,
-            requestedToJoin: docSnap.data().join_requests.includes(userId) ? true : false,
+            requestedToJoin: docSnap.data().join_requests.includes(userId)
+              ? true
+              : false,
             isMember: docSnap.data().members.includes(userId) ? true : false,
           });
 
@@ -40,13 +43,12 @@ export const useCommunity = (communityId, userId) => {
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            setEvents((prevEvent) => [
-              ...prevEvent,
-              { eventId: doc.id, ...doc.data() },
-            ]);
+            eventsArr.push({ eventId: doc.id, ...doc.data() });
           });
+
+          setEvents(eventsArr)
         } else {
-          setError("No community found.");
+          setError("No community found.")
         }
       } catch (error) {
         if (isMounted) {

@@ -1,11 +1,23 @@
-import { List, ListItem, ListItemButton, Avatar, Skeleton } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  Avatar,
+  Skeleton,
+} from "@mui/material";
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserProvider";
 import { useMyCommunities } from "../../hooks/communities/useMyCommunities";
+import { useNavigate } from "react-router-dom";
 
 export default function MyCommunityList({}) {
   const currentUser = useContext(UserContext);
   const { communities, loading } = useMyCommunities(currentUser?.userId);
+  const navigate = useNavigate();
+
+  const redirect = (communityId) => {
+    navigate(`/community-details/${communityId}`);
+  };
 
   if (loading) {
     return <>Loading...</>;
@@ -17,7 +29,10 @@ export default function MyCommunityList({}) {
       <List>
         {communities.map((community, index) => (
           <ListItem key={index} disablePadding>
-            <ListItemButton sx={{ gap: "1rem" }}>
+            <ListItemButton
+              sx={{ gap: "1rem" }}
+              onClick={() => redirect(community.communityId)}
+            >
               {community ? (
                 <Avatar
                   sx={{ border: "1px solid #DDDDDD" }}

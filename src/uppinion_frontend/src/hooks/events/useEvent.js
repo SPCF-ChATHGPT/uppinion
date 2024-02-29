@@ -5,6 +5,8 @@ import {
   where,
   getDocs,
   query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../config/firebase";
@@ -12,12 +14,19 @@ import { db } from "../../config/firebase";
 export const useEvent = (eventId, userId) => {
   const [suggestions, setSuggestions] = useState([]);
   const [mySuggestion, setMySuggestion] = useState([]);
+  const [categorizedSuggestions, setCategorizedSuggestions] = useState({});
   const [event, setEvent] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     let isMounted = true;
-    setEvent({});
+    let categorizedTopSuggestions = {
+      venue: [],
+      theme: [],
+      program: [],
+      others: [],
+    };
+    setEvent([]);
 
     const getEvent = async () => {
       setLoading(true);
@@ -59,8 +68,18 @@ export const useEvent = (eventId, userId) => {
                 ...voted,
                 ...doc.data(),
               },
-            ]);
+            ])
+
+            if (doc.data().votes.length > 0) {
+              categorizedTopSuggestions[doc.data().type.toLowerCase()].push({
+                suggestionId: doc.id,
+                ...doc.data(),
+                ...voted,
+              });
+            }
           });
+
+          setCategorizedSuggestions(categorizedTopSuggestions);
         } else {
           setError("No event found.");
         }
@@ -82,9 +101,11 @@ export const useEvent = (eventId, userId) => {
     };
   }, [eventId, userId]);
 
+
   return {
     suggestions: suggestions,
     mySuggestion: mySuggestion,
+    categorizedSuggestions: categorizedSuggestions,
     event: event,
     error: error,
     loading: loading,

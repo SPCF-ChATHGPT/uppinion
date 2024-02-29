@@ -11,30 +11,56 @@ import MySuggestionCard from "../../components/MySuggestionCard";
 import AddSuggestionCard from "../../components/AddSuggestionCard";
 
 export default function EventDetailsPage({}) {
-  const [suggestionType, setSuggestionType] = useState("venue");
-  const [displayedSuggestions, setDisplayedSuggestions] = useState([]);
   const currentUser = useContext(UserContext);
   const { eventId } = useParams();
-  const { suggestions, mySuggestion, event, loading, error } = useEvent(
-    eventId,
-    currentUser?.userId
-  );
+  const {
+    suggestions,
+    mySuggestion,
+    categorizedSuggestions,
+    event,
+    loading,
+    error,
+  } = useEvent(eventId, currentUser?.userId);
+
+  const [suggestionType, setSuggestionType] = useState("venue");
+  const [displayedSuggestions, setDisplayedSuggestions] = useState([]);
+  const [displayedTopSuggestions, setDisplayedTopSuggestions] = useState([]);
+  const [topSuggestions, setTopSuggestions] = useState({});
 
   const handleSetSuggestion = (type) => {
     setSuggestionType(type);
   };
 
   useEffect(() => {
-    if (suggestionType) {
-      let items = [];
-      items = suggestions.filter(
-        (suggestion) =>
-          suggestion.type.toLowerCase() === suggestionType.toLowerCase()
-      );
+    let items = [];
+    items = suggestions.filter(
+      (suggestion) =>
+        suggestion.type.toLowerCase() === suggestionType.toLowerCase()
+    );
 
-      setDisplayedSuggestions(items);
-    }
-  }, [suggestionType]);
+    setDisplayedSuggestions(items);
+  }, [suggestionType, suggestions]);
+
+  useEffect(() => {
+    let typesArr = ["venue", "theme", "program", "others"];
+
+    typesArr.map((type) => {
+      if (categorizedSuggestions[type]?.length > 0) {
+        categorizedSuggestions[type].sort(
+          (a, b) => b.votes.length - a.votes.length
+        )
+
+        categorizedSuggestions[type].slice(0, 10)
+      }
+    })
+
+    setTopSuggestions(categorizedSuggestions);
+  }, [categorizedSuggestions]);
+
+  useEffect(() => {
+    setDisplayedTopSuggestions(topSuggestions[suggestionType.toLowerCase()]);
+  }, [suggestionType, topSuggestions]);
+
 
   if (loading) {
     return <>Loading...</>;
@@ -52,7 +78,7 @@ export default function EventDetailsPage({}) {
         currentType={suggestionType}
       />
 
-      <AddSuggestionCard eventStatus={event.status}/>
+      <AddSuggestionCard eventStatus={event.status} />
 
       <Box
         component="div"
@@ -64,7 +90,29 @@ export default function EventDetailsPage({}) {
           mt: "1rem",
         }}
       >
-        {mySuggestion.length > 0 && <LabeledDivider label="My Suggestions" />}
+        {displayedTopSuggestions?.length > 0 && (
+          <LabeledDivider label="Top Suggestions" />
+        )}
+
+        {displayedTopSuggestions?.map((suggestion) => (
+          <SuggestionCard
+            key={Math.random()}
+            name={suggestion.name}
+            description={suggestion.description}
+            type={suggestion.type}
+            votes={suggestion.votes.length}
+            suggestionId={suggestion.suggestionId}
+            voted={suggestion.voted}
+            eventStatus={event.status}
+          />
+        ))}
+
+        {mySuggestion.length > 0 && (
+          <LabeledDivider
+            label="My Suggestions"
+            withDivider={!displayedTopSuggestions?.length === 0}
+          />
+        )}
 
         {mySuggestion.length > 0 &&
           mySuggestion.map((suggestion) => (
@@ -76,6 +124,7 @@ export default function EventDetailsPage({}) {
               votes={suggestion.votes.length}
               suggestionId={suggestion.suggestionId}
               voted={suggestion.voted}
+              eventStatus={event.status}
             />
           ))}
 
@@ -97,6 +146,7 @@ export default function EventDetailsPage({}) {
             votes={suggestion.votes.length}
             suggestionId={suggestion.suggestionId}
             voted={suggestion.voted}
+            eventStatus={event.status}
           />
         ))}
       </Box>

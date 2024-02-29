@@ -23,6 +23,7 @@ export default function SuggestionCard({
   votes,
   suggestionId,
   voted,
+  eventStatus,
 }) {
   const currentUser = useContext(UserContext);
   const [isMyVote, setIsMyVote] = useState(voted);
@@ -112,7 +113,10 @@ export default function SuggestionCard({
             )
           }
           color="violet"
-          sx={{ ml: "auto" }}
+          sx={{
+            ml: "auto",
+            display: eventStatus.toLowerCase() === "open" ? "flex" : "none"
+          }}
           onClick={
             isMyVote ? () => updateVote("delete") : () => updateVote("add")
           }

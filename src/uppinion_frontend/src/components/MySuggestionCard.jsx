@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import colors from "../utils/colors";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
 
 export default function MySuggestionCard({
   name,
@@ -18,6 +19,7 @@ export default function MySuggestionCard({
   votes,
   suggestionId,
   voted,
+  eventStatus,
 }) {
   return (
     <Card elevation={0}>
@@ -62,17 +64,22 @@ export default function MySuggestionCard({
       </CardContent>
 
       <CardActions sx={{ px: { xs: "0rem", lg: "1rem" }, pb: "1rem" }}>
-        <Typography
+        {/* <Typography
           variant="subtitle2"
           sx={{ fontStyle: "italic", mr: "auto", color: "gray" }}
         >
           You voted this suggestion
-        </Typography>
+        </Typography> */}
         <Button
           size="small"
           variant="text"
           startIcon={<DeleteIcon />}
-          sx={{ ml: "auto", color: colors.error, fontWeight: "bold" }}
+          sx={{
+            ml: "auto",
+            color: colors.error,
+            fontWeight: "bold",
+            display: eventStatus.toLowerCase() === "open" ? "flex" : "none",
+          }}
         >
           REMOVE
         </Button>
