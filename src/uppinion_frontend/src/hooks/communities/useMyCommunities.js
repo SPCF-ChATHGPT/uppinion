@@ -5,7 +5,7 @@ import { db } from "../../config/firebase";
 export const useMyCommunities = (communityId) => {
   const [communities, setCommunities] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     let isMounted = true;
 

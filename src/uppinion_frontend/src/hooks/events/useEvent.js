@@ -17,7 +17,7 @@ export const useEvent = (eventId, userId) => {
   const [categorizedSuggestions, setCategorizedSuggestions] = useState({});
   const [event, setEvent] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     let isMounted = true;
     let categorizedTopSuggestions = {

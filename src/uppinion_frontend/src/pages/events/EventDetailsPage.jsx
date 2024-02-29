@@ -9,6 +9,7 @@ import { UserContext } from "../../providers/UserProvider";
 import { useEvent } from "../../hooks/events/useEvent";
 import MySuggestionCard from "../../components/MySuggestionCard";
 import AddSuggestionCard from "../../components/AddSuggestionCard";
+import Loading from "../../components/Loading";
 
 export default function EventDetailsPage({}) {
   const currentUser = useContext(UserContext);
@@ -63,7 +64,7 @@ export default function EventDetailsPage({}) {
 
 
   if (loading) {
-    return <>Loading...</>;
+    return <Loading />;
   }
 
   return (

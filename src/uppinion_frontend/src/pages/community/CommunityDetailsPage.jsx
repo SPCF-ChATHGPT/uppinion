@@ -7,6 +7,7 @@ import CommunityHeader from "../../components/CommunityHeader";
 import EventCard from "../../components/EventCard";
 import { useCommunity } from "../../hooks/communities/useCommunity";
 import { UserContext } from "../../providers/UserProvider";
+import Loading from "../../components/Loading";
 
 export default function CommunityDetailsPage({}) {
   const currentUser = useContext(UserContext);
@@ -22,7 +23,7 @@ export default function CommunityDetailsPage({}) {
   }, [events]);
 
   if (loading) {
-    return <>Loading...</>;
+    return <Loading />
   }
 
   return (

@@ -13,7 +13,7 @@ export const useCommunity = (communityId, userId) => {
   const [community, setCommunity] = useState({});
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     let isMounted = true;
     const eventsArr = [];

@@ -6,9 +6,11 @@ import {
   Skeleton,
 } from "@mui/material";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+import Loading from "../../components/Loading";
 import { UserContext } from "../../providers/UserProvider";
 import { useMyCommunities } from "../../hooks/communities/useMyCommunities";
-import { useNavigate } from "react-router-dom";
 
 export default function MyCommunityList({}) {
   const currentUser = useContext(UserContext);
@@ -20,7 +22,7 @@ export default function MyCommunityList({}) {
   };
 
   if (loading) {
-    return <>Loading...</>;
+    return <Loading />;
   }
 
   return (

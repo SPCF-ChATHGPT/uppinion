@@ -8,7 +8,7 @@ import { db } from "../../config/firebase";
 export const useIsAdmin = (communityId, userId) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     let isMounted = true;
     setIsAdmin(false);
