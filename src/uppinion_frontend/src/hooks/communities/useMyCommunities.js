@@ -2,7 +2,7 @@ import { collection, where, getDocs, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../../config/firebase";
 
-export const useMyCommunities = (communityId) => {
+export const useMyCommunities = (userId) => {
   const [communities, setCommunities] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ export const useMyCommunities = (communityId) => {
         const eventRef = collection(db, "communities");
         const q = query(
           eventRef,
-          where("admin", "array-contains", communityId)
+          where("admin", "array-contains", userId)
         );
 
         const querySnapshot = await getDocs(q);
@@ -38,7 +38,7 @@ export const useMyCommunities = (communityId) => {
       }
     };
 
-    if (communityId) {
+    if (userId) {
       getCommunity();
     }
 
@@ -46,7 +46,7 @@ export const useMyCommunities = (communityId) => {
     return () => {
       isMounted = false;
     };
-  }, [communityId]);
+  }, [userId]);
 
   return {
     communities: communities,

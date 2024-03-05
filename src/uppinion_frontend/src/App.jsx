@@ -7,12 +7,13 @@ import { createTheme, alpha, getContrastRatio } from "@mui/material/styles";
 import colors from "./utils/colors";
 import UserProvider from "./providers/UserProvider";
 
-const violetBase = "#7F00FF";
+const violetBase = "#848EE5";
 const violetMain = colors.primary;
+let mode = "light";
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: mode,
     violet: {
       main: violetMain,
       light: alpha(violetBase, 0.5),

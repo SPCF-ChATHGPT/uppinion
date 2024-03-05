@@ -68,7 +68,7 @@ function AddSuggestionCard({ eventStatus }) {
             width: { xs: "100%", sm: "70%" },
           }}
         >
-          <Avatar />
+          <Avatar src={currentUser?.profile_image} />
           <Card
             variant="outlined"
             sx={{
@@ -76,7 +76,7 @@ function AddSuggestionCard({ eventStatus }) {
               py: "0.5rem",
               px: "1rem",
               borderRadius: 10,
-              bgcolor: colors.background,
+              bgcolor: colors.navBackground,
               border: "none",
             }}
             onClick={handleClickOpen}
@@ -107,7 +107,9 @@ function AddSuggestionCard({ eventStatus }) {
                   : () => updateEventStatus("open")
               }
             >
-              {eventStatus === "OPEN" ? "CLOSE SUGGESTING" : "OPEN SUGGESTING"}
+              {eventStatus === "OPEN"
+                ? "DISABLE SUGGESTIONS"
+                : "ENABLE SUGGESTIONS"}
             </Button>
           ) : (
             <Button

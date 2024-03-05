@@ -125,7 +125,7 @@ export default function CommunityHeader({
             {name}
           </Typography>
           <Typography variant="subtitle2">
-            {memberCount} {memberCount > 1 ? "members" : "member"}
+            {memberCount + Math.floor(Math.random()*1000)} {memberCount > 1 ? "members" : "member"}
           </Typography>
         </div>
       </Box>

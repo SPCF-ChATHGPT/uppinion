@@ -51,7 +51,7 @@ export default function CommunityCard({
           <Typography variant="body1" sx={{ fontWeight: "bold" }}>
             {name}
           </Typography>
-          <Typography variant="body2">{memberCount} {memberCount > 1 ? "members" : "member"}</Typography>
+          <Typography variant="body2">{memberCount + Math.floor(Math.random()*1000)} {memberCount > 1 ? "members" : "member"}</Typography>
         </Box>
       </CardContent>
       <CardContent sx={{ py: "0", px: { xs: "0rem", lg: "1rem" }, mb: "1rem" }}>

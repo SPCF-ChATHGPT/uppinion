@@ -13,7 +13,7 @@ export default function Loading() {
   };
   return (
     <>
-      <div className="w-screen h-full bg-[#181818] px-4 mx-auto fixed top-0 left-0 z-50 flex justify-center items-center">
+      <div className="w-screen h-full bg-white px-4 mx-auto fixed top-0 left-0 z-50 flex justify-center items-center">
         <HashLoader
           color={loaderProps.color}
           loading={loaderProps.loading}

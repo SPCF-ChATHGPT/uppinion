@@ -4,6 +4,7 @@ import LabeledDivider from "../../components/LabeledDivider";
 import { useViewJoinRequests } from "../../hooks/communities/useViewJoinRequests";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Loading from "../../components/Loading";
 
 export default function JoinRequestsPage({}) {
   const { communityId } = useParams();
@@ -27,7 +28,7 @@ export default function JoinRequestsPage({}) {
   };
 
   if (loading) {
-    return <>Loading...</>;
+    return <Loading />;
   }
 
   return (

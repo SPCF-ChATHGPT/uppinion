@@ -8,12 +8,12 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   //PRODUCTION
-  // apiKey: "AIzaSyAeaSSns6sLx5JjqjA7SP4aRuxXtwAGtKQ",
-  // authDomain: "capt-ed.firebaseapp.com",
-  // projectId: "capt-ed",
-  // storageBucket: "capt-ed.appspot.com",
-  // messagingSenderId: "540328867893",
-  // appId: "1:540328867893:web:11bf437601a2d21453d97c",
+  // apiKey: "AIzaSyAqs2B_DD5EG5u8gcYxDDwM21MWwLPTerE",
+  // authDomain: "uppinion-prod.firebaseapp.com",
+  // projectId: "uppinion-prod",
+  // storageBucket: "uppinion-prod.appspot.com",
+  // messagingSenderId: "184026671523",
+  // appId: "1:184026671523:web:65c5097f62701d3fad1216"
 
   //DEVELOPMENT
   apiKey: "AIzaSyDW_tj-3sAYhMxGZIkrHJ7_LNjMoh6kw6I",

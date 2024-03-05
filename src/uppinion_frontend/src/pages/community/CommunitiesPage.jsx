@@ -4,11 +4,12 @@ import LabeledDivider from "../../components/LabeledDivider";
 import { useRef, useState, useCallback, useContext } from "react";
 import { usePaginateCommunity } from "../../hooks/pagination/usePaginateCommunity";
 import { UserContext } from "../../providers/UserProvider";
+import Loading from "../../components/Loading";
 
 export default function CommunitiesPage({}) {
   const currentUser = useContext(UserContext);
   const [lastVisible, setLastVisible] = useState(null);
-  const { communities, error } = usePaginateCommunity(
+  const { communities, error, loading } = usePaginateCommunity(
     lastVisible,
     currentUser?.userId
   );
@@ -27,6 +28,10 @@ export default function CommunitiesPage({}) {
     },
     [communities]
   );
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Box

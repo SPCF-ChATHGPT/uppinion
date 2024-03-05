@@ -56,8 +56,8 @@ export default function DrawerButtons({ buttons }) {
                 style={({ isActive, isPending, isTransitioning }) => {
                   return {
                     fontWeight: isActive ? "bold" : "",
-                    color: isActive ? colors.primary : "white",
-                    backgroundColor: isActive ? colors.background : "",
+                    color: isActive ? colors.primary : "black",
+                    backgroundColor: isActive ? colors.navBackground : "",
                   };
                 }}
                 className="w-full px-4 py-3 rounded-sm flex gap-8 items-center"

@@ -13,6 +13,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 
 import colors from "../utils/colors";
 import uppinionLogo from "../assets/uppinion.png";
@@ -24,6 +25,11 @@ const drawerButtons = [
     name: "Join a community",
     icon: <GroupOutlinedIcon sx={{ color: colors.primary }} />,
     path: "/communities",
+  },
+  {
+    name: "Messages",
+    icon: <EmailOutlinedIcon sx={{ color: colors.primary }} />,
+    path: "/messages",
   },
   {
     name: "Saved events",
@@ -66,6 +72,7 @@ export default function NavDrawer({ children }) {
         position="fixed"
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
+          bgcolor: "white"
         }}
       >
         <Toolbar disableGutters sx={{ px: "1rem" }}>
@@ -86,7 +93,7 @@ export default function NavDrawer({ children }) {
             style={{ width: "40px", height: "40px" }}
           />
           <Typography
-            color={"white"}
+            color={"black"}
             variant="body1"
             noWrap
             component="div"

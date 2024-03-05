@@ -13,10 +13,14 @@ export const usePaginateCommunity = (lastVisible, userId) => {
   const PAGINATED_RESULT_LIMIT = 5;
   const [communities, setCommunities] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Flag to track component mount status
     let isMounted = true;
+    if (communities.length > 0) {
+      setLoading(false);
+    }
 
     const getCommunities = async () => {
       try {
@@ -65,6 +69,8 @@ export const usePaginateCommunity = (lastVisible, userId) => {
           console.log(error);
           setError(error);
         }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -76,5 +82,5 @@ export const usePaginateCommunity = (lastVisible, userId) => {
     };
   }, [lastVisible, userId]); // Dependency array
 
-  return { communities, error };
+  return { communities, error, loading };
 };

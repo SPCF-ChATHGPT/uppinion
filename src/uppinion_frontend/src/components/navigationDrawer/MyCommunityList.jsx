@@ -22,7 +22,7 @@ export default function MyCommunityList({}) {
   };
 
   if (loading) {
-    return <Loading />;
+    return <>Loading...</>
   }
 
   return (

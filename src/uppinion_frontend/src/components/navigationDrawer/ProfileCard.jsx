@@ -1,18 +1,26 @@
-import { Card, CardHeader, Avatar, Skeleton } from "@mui/material";
-import { getStorage, getDownloadURL, ref } from "firebase/storage";
-import { useContext, useState, useEffect } from "react";
+import {
+  Card,
+  CardHeader,
+  Avatar,
+  Skeleton,
+  ListItem,
+  ListItemButton,
+} from "@mui/material";
+import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 
 import { UserContext } from "../../providers/UserProvider";
 import colors from "../../utils/colors";
 
 export default function ProfileCard({}) {
   const currentUser = useContext(UserContext);
+  const profilePagePath = `/profile/${currentUser?.userId}`;
 
   return (
     <Card
       elevation={0}
       sx={{
-        backgroundColor: colors.background,
+        backgroundColor: colors.navBackground,
         mb: "0.5rem",
       }}
     >
@@ -35,7 +43,13 @@ export default function ProfileCard({}) {
           </>
         }
         title={
-          <p className="text-sm font-bold line-clamp-1">{currentUser?.name}</p>
+          <ListItem disablePadding>
+            <ListItemButton sx={{ p: 0 }}>
+              <NavLink to={profilePagePath}>
+                <p className="font-bold">{currentUser?.name}</p>
+              </NavLink>
+            </ListItemButton>
+          </ListItem>
         }
         disableTypography
         sx={{

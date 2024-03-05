@@ -122,7 +122,7 @@ export default function NewEventDialog({ open, handleClose }) {
               margin="dense"
               id="name"
               name="name"
-              label="Community Name"
+              label="Event Name"
               type="text"
               fullWidth
               variant="outlined"

@@ -51,7 +51,7 @@ export default function NewCommunityDialog({ open, handleClose }) {
         try {
           await uploadBytes(storageRef, blob);
           const url = await getDownloadURL(
-            ref(storage, `gs://uppinion-dev.appspot.com/${defaultImageName}`)
+            ref(storage, `gs://uppinion-prod.appspot.com/${defaultImageName}`)
           );
           resolve(url);
         } catch (error) {
@@ -79,7 +79,7 @@ export default function NewCommunityDialog({ open, handleClose }) {
     }
 
     const { name, description } = data;
-    const admin = { user_id: currentUser.userId };
+    const admin = currentUser.userId
 
     const { communityId, success, error } = await useCreateCommunity({
         admin: admin,

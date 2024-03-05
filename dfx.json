@@ -1,13 +1,6 @@
 {
   "canisters": {
-    "uppinion_backend": {
-      "main": "src/uppinion_backend/main.mo",
-      "type": "motoko"
-    },
     "uppinion_frontend": {
-      "dependencies": [
-        "uppinion_backend"
-      ],
       "source": [
         "src/uppinion_frontend/dist"
       ],

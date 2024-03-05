@@ -7,6 +7,8 @@ import {
   Divider,
 } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AnalyticsOutlinedIcon from "@mui/icons-material/AnalyticsOutlined";
 
 const cardTagButtons = [
   {
@@ -40,12 +42,19 @@ export default function EventDetailsCard({
   handleSetSuggestion,
   currentType,
 }) {
+  const navigate = useNavigate();
   const [selectedType, setSelectedType] = useState(currentType);
+
+  const analyticsBtn = {
+    name: "Analytics",
+    icon: <AnalyticsOutlinedIcon />,
+    func: () => navigate("/analytics"),
+  };
 
   return (
     <Card
       elevation={0}
-      sx={{ borderBottom: "1px solid #373737", borderRadius: 0 }}
+      sx={{ borderBottom: "1px solid #dddddd", borderRadius: 0 }}
     >
       <Card
         elevation={0}
@@ -101,6 +110,17 @@ export default function EventDetailsCard({
             {btn.name}
           </Button>
         ))}
+
+        <Button
+          size="small"
+          color="violet"
+          sx={{ fontWeight: "bold" }}
+          variant="outlined"
+          startIcon={analyticsBtn.icon}
+          onClick={analyticsBtn.func}
+        >
+          {analyticsBtn.name}
+        </Button>
       </CardActions>
     </Card>
   );

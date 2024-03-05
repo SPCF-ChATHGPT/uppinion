@@ -9,7 +9,7 @@ import {
   Divider,
 } from "@mui/material";
 import colors from "../utils/colors";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useState } from "react";
 
 export default function MySuggestionCard({
@@ -73,7 +73,7 @@ export default function MySuggestionCard({
         <Button
           size="small"
           variant="text"
-          startIcon={<DeleteIcon />}
+          startIcon={<DeleteOutlineOutlinedIcon />}
           sx={{
             ml: "auto",
             color: colors.error,
@@ -84,6 +84,7 @@ export default function MySuggestionCard({
           REMOVE
         </Button>
       </CardActions>
+      <Divider />
     </Card>
   );
 }
