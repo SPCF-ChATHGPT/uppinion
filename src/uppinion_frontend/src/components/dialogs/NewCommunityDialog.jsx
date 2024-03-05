@@ -51,7 +51,7 @@ export default function NewCommunityDialog({ open, handleClose }) {
         try {
           await uploadBytes(storageRef, blob);
           const url = await getDownloadURL(
-            ref(storage, `gs://uppinion-prod.appspot.com/${defaultImageName}`)
+            ref(storage, `gs://uppinion-dev.appspot.com/${defaultImageName}`)
           );
           resolve(url);
         } catch (error) {

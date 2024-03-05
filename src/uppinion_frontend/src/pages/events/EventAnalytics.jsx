@@ -208,7 +208,7 @@ export default function EventAnalytics({}) {
             </Card>
             <Box>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Charles' Suggestion
+                Cathlyn's Suggestion
               </Typography>
               <Typography variant="body2">Type: THEME</Typography>
             </Box>
@@ -260,7 +260,7 @@ export default function EventAnalytics({}) {
             </Card>
             <Box>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Charles' Suggestion
+                Mel's Suggestion
               </Typography>
               <Typography variant="body2">Type: THEME</Typography>
             </Box>
@@ -312,7 +312,7 @@ export default function EventAnalytics({}) {
             </Card>
             <Box>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Charles' Suggestion
+                Alexander's Suggestion
               </Typography>
               <Typography variant="body2">Type: THEME</Typography>
             </Box>
@@ -364,7 +364,7 @@ export default function EventAnalytics({}) {
             </Card>
             <Box>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Charles' Suggestion
+                Edmar's Suggestion
               </Typography>
               <Typography variant="body2">Type: THEME</Typography>
             </Box>
@@ -416,7 +416,7 @@ export default function EventAnalytics({}) {
             </Card>
             <Box>
               <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                Charles' Suggestion
+                Prince's Suggestion
               </Typography>
               <Typography variant="body2">Type: THEME</Typography>
             </Box>
