@@ -19,7 +19,7 @@ import MessagesPage from "../pages/messages/MessagesPage";
 // };
 
 const login = {
-  path: "/login",
+  path: "/",
   element: <LoginPage />,
 };
 

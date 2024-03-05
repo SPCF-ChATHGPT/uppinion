@@ -18,7 +18,7 @@ export default function ProfileHeader({ name, email, image }) {
   const signOutUser = () => {
     signOut(auth)
       .then(() => {
-        navigate("/login");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error.message);

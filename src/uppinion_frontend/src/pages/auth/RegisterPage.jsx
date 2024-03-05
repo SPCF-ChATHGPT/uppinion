@@ -98,7 +98,7 @@ export default function RegisterPage({}) {
 
         setSuccess(true);
         setLoading(false);
-        navigate("/login");
+        navigate("/");
       })
       .catch((error) => {
         setSuccess(false);
@@ -271,7 +271,7 @@ export default function RegisterPage({}) {
       <Typography variant="subtitle2">
         Already have an account?{" "}
         <a
-          href="/login"
+          href="/"
           style={{
             fontWeight: "bold",
             color: colors.primary,

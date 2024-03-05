@@ -130,7 +130,7 @@ export default function MessagesPage({}) {
         <LabeledDivider label="Chats" />
         <TextField size="small" placeholder="Search..." sx={{mb: "1rem", mt: "0.5rem"}} />
         {chatNames.map((chat) => (
-          <div>
+          <div key={Math.random()}>
             <Box
               component="div"
               sx={{

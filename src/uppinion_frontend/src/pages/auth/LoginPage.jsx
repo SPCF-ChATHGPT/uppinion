@@ -64,11 +64,12 @@ export default function LoginPage({}) {
         flexDirection: "column",
         gap: 1,
         p: "1rem",
-        minHeight: "100vh",
         alignItems: "center",
+        justifyContent: "center",
         width: { xs: "100%", sm: "50%", md: "30%" },
-        mx: "auto",
+        m: "auto",
         mb: "2rem",
+        mt: "5rem",
       }}
     >
       <img

@@ -8,6 +8,7 @@ import EventCard from "../../components/EventCard";
 import { useCommunity } from "../../hooks/communities/useCommunity";
 import { UserContext } from "../../providers/UserProvider";
 import Loading from "../../components/Loading";
+import NoEvents from "../../components/NoEvents";
 
 export default function CommunityDetailsPage({}) {
   const currentUser = useContext(UserContext);
@@ -63,6 +64,9 @@ export default function CommunityDetailsPage({}) {
               isMember={community.isMember}
             />
           ))}
+
+{allEvents.length === 0 ? <NoEvents /> : null}
+
       </Box>
     </>
   );
